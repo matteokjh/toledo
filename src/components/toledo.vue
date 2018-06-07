@@ -55,8 +55,9 @@ export default {
             
             data.forEach( (e, idx)=>{
                 if(e.title === title) {
-                    this.prev = idx-1 > 0 ? data[idx-1].title : '';
+                    this.prev = idx-1 >= 0 ? data[idx-1].title : '';
                     this.next = idx+1 < data.length ? data[idx+1].title : '';
+                    console.log(idx)
                 }
             })
         })
@@ -237,5 +238,8 @@ footer p:hover {
 }
 img {
     max-width: 600px;
+}
+blockquote p {
+    white-space: pre-wrap;
 }
 </style>
