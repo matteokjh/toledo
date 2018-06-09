@@ -30,6 +30,11 @@ export default {
         }
     },
     mounted() {
+        console.log("%c<font color='#f38181'>红</font>","color: #f38181");
+        console.log("%c<font color='#fce38a'>黄</font>","color: #fce38a");
+        console.log("%c<font color='#f08a5d'>橘</font>","color: #f08a5d");
+        console.log("%c<font color='#a8d8ea'>蓝</font>","color: #a8d8ea");
+
         let origin = location.origin.split(':').splice(0,2).join(":");
         this.$http.get(origin+':3000/users/getdetails',{
             params: {
@@ -57,7 +62,6 @@ export default {
                 if(e.title === title) {
                     this.prev = idx-1 >= 0 ? data[idx-1].title : '';
                     this.next = idx+1 < data.length ? data[idx+1].title : '';
-                    console.log(idx)
                 }
             })
         })
