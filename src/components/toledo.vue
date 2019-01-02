@@ -11,11 +11,15 @@
                 <router-link target="_blank" :to="{path:'toledo',query:{title: this.prev}}"><p v-if="this.prev">上一篇：{{ this.prev }}</p></router-link>
                 <router-link target="_blank" :to="{path:'toledo',query:{title: this.next}}"><p v-if="this.next">下一篇: {{ this.next }}</p></router-link>
             </footer>
+
+            <div id="container"></div>
         </div>
     </transition>
 </template>
 
 <script>
+import 'gitment/style/default.css'
+import Gitment from 'gitment'
 export default {
     data (){
         return {
@@ -48,6 +52,14 @@ export default {
             this.tags = data.tags;
             this.categories = data.categories;
             this.raw = data.detail;
+        }).then( f=>{ //给markdown的链接加上_blank
+            var links = document.links;
+            for (var i = 0, linksLength = links.length; i < linksLength; i++) {
+                if (links[i].hostname != window.location.hostname) {
+                    links[i].target = '_blank';
+                } 
+            }
+            // console.log(links)
         });
         this.$http.get(origin + ':3000/users/getblogs',{
             params: {
@@ -57,14 +69,53 @@ export default {
             let data = e.data.data;
             let title = this.title;
             this.indexList = data;
-            
             data.forEach( (e, idx)=>{
                 if(e.title === title) {
                     this.prev = idx-1 >= 0 ? data[idx-1].title : '';
                     this.next = idx+1 < data.length ? data[idx+1].title : '';
                 }
             })
+        });
+
+
+        //gitment init
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                
+                // your custom component
+                container.appendChild(instance.renderSomething(state, instance))
+                
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+            renderSomething(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                if (state.user.login) {
+                    container.innerText = `Hello, ${state.user.login}`
+                }
+                return container
+            }
+        }    
+
+        const gitment = new Gitment({
+            id: location.href, // optional
+            owner: 'matteokjh',
+            repo: 'gitmentRepo',
+            oauth: {
+                client_id: '90a192b7d9a6d0683485',
+                client_secret: 'b542c7239e8ab00298e229608e325064b4e9e815',
+            },
+            theme: myTheme
         })
+
+        gitment.render('container')
     }
 }
 </script>

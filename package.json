@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "gitment": "0.0.3",
     "routeadd": "^1.0.3",
     "then-fs": "^2.0.0",
     "tplser": "^1.0.2",
