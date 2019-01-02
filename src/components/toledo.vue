@@ -78,44 +78,6 @@ export default {
         });
 
 
-        //gitment init
-        const myTheme = {
-            render(state, instance) {
-                const container = document.createElement('div')
-                container.lang = "en-US"
-                container.className = 'gitment-container gitment-root-container'
-                
-                // your custom component
-                container.appendChild(instance.renderSomething(state, instance))
-                
-                container.appendChild(instance.renderHeader(state, instance))
-                container.appendChild(instance.renderEditor(state, instance))
-                container.appendChild(instance.renderComments(state, instance))
-                container.appendChild(instance.renderFooter(state, instance))
-                return container
-            },
-            renderSomething(state, instance) {
-                const container = document.createElement('div')
-                container.lang = "en-US"
-                if (state.user.login) {
-                    container.innerText = `Hello, ${state.user.login}`
-                }
-                return container
-            }
-        }    
-
-        const gitment = new Gitment({
-            id: location.href, // optional
-            owner: 'matteokjh',
-            repo: 'gitmentRepo',
-            oauth: {
-                client_id: '90a192b7d9a6d0683485',
-                client_secret: 'b542c7239e8ab00298e229608e325064b4e9e815',
-            },
-            theme: myTheme
-        })
-
-        gitment.render('container')
     }
 }
 </script>
