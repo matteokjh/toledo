@@ -108,16 +108,16 @@ export default {
         setTimeout(function(){
             // console.log(ttt)
             const gitment = new Gitment({
-                id: ttt, // optional
-                owner: 'matteokjh',
-                repo: 'gitmentRepo',
+                id: ttt, // 可选，默认是location.href，用来区分不同的博客
+                owner: 'matteokjh',//GitHub用户名/ID
+                repo: 'gitmentRepo',//存放评论的github仓库名
                 oauth: {
                     client_id: '90a192b7d9a6d0683485',
-                    client_secret: 'b542c7239e8ab00298e229608e325064b4e9e815'
+                    client_secret: 'b542c7239e8ab00298e229608e325064b4e9e815',
+                    // redirect_uri: 'http://108.61.183.77',
                 },
                 theme: myTheme
             })
-
             gitment.render('container') 
         },1000)
         
