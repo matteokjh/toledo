@@ -96,7 +96,10 @@ router.get('/getdetails',(req,res) => {
         let summary = e.split('<!-- more -->')[0].split('\n');
         summary.forEach( e => {
             if(e.indexOf('title') === 0)  detail.title = e.split(': ')[1];
-            if(e.indexOf('date') === 0)  detail.time = e.split(' ')[1];
+            if(e.indexOf('date') === 0)  {
+                detail.time = e.split(' ')[1];
+                detail.excTime = e.split(' ')[2];
+            };
             if(e.indexOf('tags') === 0) e.split(': ')[1] !== '' ? detail.tags = e.split(': ')[1].split(',') : [];
             if(e.indexOf('categories') === 0) e.split(': ')[1] !== '' ? detail.categories = e.split(': ')[1].split(','): [];
         })

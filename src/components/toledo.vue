@@ -38,7 +38,7 @@ export default {
         console.log("%c<font color='#fce38a'>黄</font>","color: #fce38a");
         console.log("%c<font color='#f08a5d'>橘</font>","color: #f08a5d");
         console.log("%c<font color='#a8d8ea'>蓝</font>","color: #a8d8ea");
-
+        var ttt = 0;
         let origin = location.origin.split(':').splice(0,2).join(":");
         this.$http.get(origin+':3000/users/getdetails',{
             params: {
@@ -49,6 +49,8 @@ export default {
             document.title = data.title;
             this.title = data.title;
             this.time = data.time;
+            ttt = data.time + data.excTime;
+            // console.log(ttt)
             this.tags = data.tags;
             this.categories = data.categories;
             this.raw = data.detail;
@@ -78,6 +80,47 @@ export default {
         });
 
 
+        //gitment init
+        const myTheme = {
+            render(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                container.className = 'gitment-container gitment-root-container'
+                
+                // your custom component
+                container.appendChild(instance.renderSomething(state, instance))
+                
+                container.appendChild(instance.renderHeader(state, instance))
+                container.appendChild(instance.renderEditor(state, instance))
+                container.appendChild(instance.renderComments(state, instance))
+                container.appendChild(instance.renderFooter(state, instance))
+                return container
+            },
+            renderSomething(state, instance) {
+                const container = document.createElement('div')
+                container.lang = "en-US"
+                if (state.user.login) {
+                    container.innerText = `Hello, ${state.user.login}`
+                }
+                return container
+            }
+        }    
+        setTimeout(function(){
+            // console.log(ttt)
+            const gitment = new Gitment({
+                id: ttt, // optional
+                owner: 'matteokjh',
+                repo: 'gitmentRepo',
+                oauth: {
+                    client_id: '90a192b7d9a6d0683485',
+                    client_secret: 'b542c7239e8ab00298e229608e325064b4e9e815'
+                },
+                theme: myTheme
+            })
+
+            gitment.render('container') 
+        },1000)
+        
     }
 }
 </script>
