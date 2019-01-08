@@ -40,7 +40,7 @@ export default {
         console.log("%c<font color='#a8d8ea'>蓝</font>","color: #a8d8ea");
         var ttt = 0;
         let origin = location.origin.split(':').splice(0,2).join(":");
-        this.$http.get(origin+':3000/users/getdetails',{
+        this.$http.get(origin+':3003/users/getdetails',{
             params: {
                 title: this.title
             }
@@ -63,7 +63,7 @@ export default {
             }
             // console.log(links)
         });
-        this.$http.get(origin + ':3000/users/getblogs',{
+        this.$http.get(origin + ':3003/users/getblogs',{
             params: {
                 title: this.title
             }
