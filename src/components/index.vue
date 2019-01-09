@@ -46,7 +46,7 @@ export default {
     },
     mounted() {
         let origin = location.origin.split(':').splice(0,2).join(":");
-        this.$http.get(origin + ':3000/users/getblogs')
+        this.$http.get(origin + ':3003/users/getblogs')
         .then( response => {
             this.articles = response.data.data;
             let total = this.articles.length;
