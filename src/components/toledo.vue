@@ -18,6 +18,25 @@
 </template>
 
 <script>
+function blogCSS(){
+    let a = document.getElementById('stretch')
+    let b = document.getElementById('start')
+    let c = document.getElementById('end')
+    let d = document.getElementById('center')
+    let hero = document.getElementsByClassName('grid')[1]
+    a.onclick = function(){
+        hero.style.justifyItems = 'stretch'
+    }
+    b.onclick = function(){
+        hero.style.justifyItems = 'start'
+    }
+    c.onclick = function(){
+        hero.style.justifyItems = 'end'
+    }
+    d.onclick = function(){
+        hero.style.justifyItems = 'center'
+    }
+}
 import 'gitment/style/default.css'
 import Gitment from 'gitment'
 export default {
@@ -33,11 +52,24 @@ export default {
             next: ''
         }
     },
+    methods: {
+        
+    },
     mounted() {
         console.log("%c<font color='#f38181'>红</font>","color: #f38181");
         console.log("%c<font color='#fce38a'>黄</font>","color: #fce38a");
         console.log("%c<font color='#f08a5d'>橘</font>","color: #f08a5d");
         console.log("%c<font color='#a8d8ea'>蓝</font>","color: #a8d8ea");
+        
+        //临时放置博客内嵌函数
+        // console.log(this.title)
+        if(this.title === 'CSS布局'){
+            setTimeout(function(){
+                blogCSS();//CSS布局
+            },500)
+        }
+        
+
         var ttt = 0;
         let origin = location.origin.split(':').splice(0,2).join(":");
         this.$http.get(origin+':3003/users/getdetails',{
