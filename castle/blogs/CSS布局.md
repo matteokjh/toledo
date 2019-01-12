@@ -19,7 +19,7 @@ categories: css
     <div style='background-color: #ff6464; background-image:url(/static/img/grid2.png);background-repeat:no-repeat;background-size: cover;'></div>
     <div style='background-color: #ffdede; background-image:url(/static/img/grid3.png);background-repeat:no-repeat;background-size: cover;'></div>
     <div style='background-color: #ff8264; background-image:url(/static/img/grid4.png);background-repeat:no-repeat;background-size: cover;'></div>
-    <div style='background-color: #fb90b7; background-image:url(/static/img/grid5.png);background-repeat:no-repeat;background-size: cover;'></div>
+    <div id='siki' style='background-color: #fb90b7; background-image:url(/static/img/grid5.png);background-repeat:no-repeat;background-size: cover;'></div>
     <div style='background-color: #ffaa64; background-image:url(/static/img/grid6.png);background-repeat:no-repeat;background-size: cover;'></div>
     <div style='background-color: #a2738c; background-image:url(/static/img/grid7.png);background-repeat:no-repeat;background-size: cover;'></div>
     <div style='background-color: #fff5a5; background-image:url(/static/img/grid8.png);background-repeat:no-repeat;background-size: cover;'></div>
@@ -159,7 +159,6 @@ item是针对网格内的每个元素相对分配给它们的空间如果小了�
 .flex-wrapper > div {
     width: 98px;
     height: 98px;
-    cursor: pointer;
     border: 1px solid #eee;
     border-radius: 3px;
     display: flex;
@@ -264,7 +263,7 @@ item是针对网格内的每个元素相对分配给它们的空间如果小了�
 > |space-around] - 主轴上的对齐方式；
 > <font color='#f08a5d'>5.align-items</font>: [flex-start|flex-end|center|baseline|stretch] - 交叉轴上的对齐方式； 
 > <font color='#f08a5d'>6.align-content</font>: [flex-start|flex-end|center|space-between
-> |space-around|stretch] - 定义多跟轴线的对齐方式，对一条轴线的情况不起作用； 
+> |space-around|stretch] - 定义多跟轴线的对齐方式，对一条轴线的情况不起作用；
 
 子元素：
 
@@ -275,18 +274,250 @@ item是针对网格内的每个元素相对分配给它们的空间如果小了�
 > <font color='#a8d8ea'>5.flex</font>: [none || flex-grow flex-shrink flex-basis] - 建议三个写在一起，默认为0 1 auto；
 > <font color='#a8d8ea'>6.align-self</font>: [auto|flex-start|flex-end|center|baseline|stretch] - 单个item与其他items可以有不同的对齐方式；
 
+---
+
+### 3. 圣杯 & 双飞翼布局
+
+圣杯布局要求：
+
+> 1.header,footer占满屏幕宽度，高度固定；
+> 2.container是三栏布局；
+> 3.left,right宽度固定,middle自适应填满区域；
+
+经典的浮动实现：(个人认为核心是margin-left：-100%)
+
+```html
+<body>
+    <header>header</header>
+    <div class="container">
+        <div class="middle">middle</div>
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </div>
+    <footer>footer</footer>
+</body>
+```
+
+```css
+.sehai header, .sehai footer{
+    height:50px;
+    width:100%; 
+    background-color: #ffe6eb;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+.sehai .container div {
+    margin: 0;
+}
+.sehai .container{
+    height:200px;
+    padding: 0 100px 0 150px;
+}
+.sehai .container>div{
+    float: left;
+}
+
+.sehai .container  .left{
+    width:150px;
+    height:200px;
+    background-color: #defcfc;
+    margin-left: -100%;
+    left: -150px;
+    position: relative;
+}
+
+.sehai .container  .right{
+    position: relative;
+    width:100px;
+    height:200px;
+    margin-right: -100px;
+    background-color: #cbf1f5;
+}
+
+.sehai .middle{
+    float: left;
+    height:200px;
+    background-color: #a6e3e9;
+    width: 100%;
+}
+```
+<style>
+.sehai header, .sehai footer{
+    height:50px;
+    width:100%; 
+    background-color: #ffe6eb;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+.sehai .container div {
+    margin: 0;
+}
+.sehai .container{
+    height:200px;
+    padding: 0 100px 0 150px;
+}
+.sehai .container>div{
+    float: left;
+}
+
+.sehai .container  .left{
+    width:150px;
+    height:200px;
+    background-color: #defcfc;
+    margin-left: -100%;
+    left: -150px;
+    position: relative;
+}
+
+.sehai .container  .right{
+    position: relative;
+    width:100px;
+    height:200px;
+    margin-right: -100px;
+    background-color: #cbf1f5;
+}
+
+.sehai .middle{
+    float: left;
+    height:200px;
+    background-color: #a6e3e9;
+    width: 100%;
+}
+</style>
+
+<div class='sehai'>
+    <header>header</header>
+    <div class="container">
+        <div class="middle">middle</div>
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </div>
+    <footer>footer</footer>
+</div>
+
+<br>
+
+双飞翼：
+
+圣杯的改进版，解决了圣杯布局main最小宽度不能小于left的缺点；
+
+不需要设置relative，也不需要设置left/right，设置的是margin而不是padding了；
+
+原理是给main包一层div，设置那层的float，main就被保护起来了，然后在main中设置margin；
+
+```html
+<div id="main-wrap" class="column">
+      <div id="main">#main</div>
+</div>
+<div class="sub"></div>        
+<div class="extra"></div>
+```
+
+```css
+.main-wrap {        
+    float: left;       
+    width: 100%;   
+ }  
+ .sub {       
+    float: left;        
+    width: 190px;        
+    margin-left: -100%;   
+}   
+.extra {        
+    float: left;        
+    width: 230px;        
+    margin-left: -230px; 
+ }
+.main {    
+    margin: 0 230px 0 190px;
+}
+```
+
+---
+
+### 4. 瀑布流
+
+比较多用于文章排版；
+
+核心： Multi-columns
+
+```html
+<div class='waterfall'>
+    <div class='water'><span>1</span></div>
+    <div class='water'><span>2</span></div>
+    <div class='water'><span>3</span></div>
+    <div class='water'><span>4</span></div>
+    <div class='water'><span>5</span></div>
+    <div class='water'><span>6</span></div>
+    <div class='water'><span>7</span></div>
+    <div class='water'><span>8</span></div>
+    <div class='water'><span>9</span></div>
+</div>
+```
+```css
+.waterfall {
+    column-count: 3;
+    column-gap: 10px;
+}
+.water {
+    break-inside: avoid;
+    box-sizing: border-box;
+    height: 100px;
+    background-color: #eee;
+    margin-bottom: 10px;
+}
+.water span {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-color: #ddd;
+    line-height: 20px;
+    text-align: center;
+    color: #eee;
+}
+```
 
 
+<style>
+.waterfall {
+    column-count: 3;
+    column-gap: 10px;
+}
+.water {
+    break-inside: avoid;
+    box-sizing: border-box;
+    height: 100px;
+    background-color: #eee;
+    margin-bottom: 10px;
+}
+.water span {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-color: #ddd;
+    line-height: 20px;
+    text-align: center;
+    color: #eee;
+}
+</style>
 
+<div class='waterfall'>
+    <div class='water'><span>1</span></div>
+    <div class='water'><span>2</span></div>
+    <div class='water'><span>3</span></div>
+    <div class='water'><span>4</span></div>
+    <div class='water'><span>5</span></div>
+    <div class='water'><span>6</span></div>
+    <div class='water'><span>7</span></div>
+    <div class='water'><span>8</span></div>
+    <div class='water'><span>9</span></div>
+</div>
 
+这个多列貌似不能切成行..如果要按行顺序排列的话恐怕还是要js操作；
 
-
-
-
-
-
-
-
+所以不适合实时的需要最新的最上面那种微博卡片之类的，而适合随机推送那种；
 
 
 ---
@@ -429,6 +660,7 @@ nth-of-type 是先根据类型选择子元素，再选择对应序号的元素�
     </div>
 </div>
 ```
+
 ```css
 .container {
     height: auto;
@@ -476,7 +708,11 @@ demo:
 
 ---
 
+结语：
 
+在md里写html和css真麻烦！而且还写不了js！枯了qwq
+
+---
 
 参考文章：
 
@@ -487,3 +723,14 @@ demo:
 [阮一峰：Flex 布局教程：语法篇](http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
 
 [阮一峰：Flex 布局教程：实例篇](http://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
+
+[张君卓mytac: 超经典面试题：用多种方法实现圣杯布局和双飞翼布局](https://www.jianshu.com/p/2fe0e6953d0f)
+
+[Shelley:CSS布局十八般武艺都在这里了](https://segmentfault.com/a/1190000008789039)
+
+[纯CSS实现瀑布流布局](http://ju.outofmemory.cn/entry/310296)
+
+---
+
+以上.
+

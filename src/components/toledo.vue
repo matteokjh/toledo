@@ -23,6 +23,7 @@ function blogCSS(){
     let b = document.getElementById('start')
     let c = document.getElementById('end')
     let d = document.getElementById('center')
+    let e = document.getElementById('siki')
     let hero = document.getElementsByClassName('grid')[1]
     a.onclick = function(){
         hero.style.justifyItems = 'stretch'
@@ -35,6 +36,9 @@ function blogCSS(){
     }
     d.onclick = function(){
         hero.style.justifyItems = 'center'
+    }
+    e.onclick = function(){
+        alert('式姐是我的，你想干嘛？')
     }
 }
 import 'gitment/style/default.css'
