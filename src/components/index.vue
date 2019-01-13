@@ -49,6 +49,7 @@ export default {
         this.$http.get(origin + ':3003/users/getblogs')
         .then( response => {
             this.articles = response.data.data;
+            console.log(this.articles)
             let total = this.articles.length;
             this.totalPages = Math.ceil(total/this.articlesPerPage);
             var pageArticles = [];

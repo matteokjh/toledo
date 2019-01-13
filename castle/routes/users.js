@@ -46,9 +46,12 @@ router.get('/getblogs', (req,res) => {
                 })
                 idx.push(s);
             })
-            idx.sort( (a, b)=>{
-                return a.time < b.time
-            })
+            function sorter(a,b){
+                if(a.time > b.time) return -1;
+                else if(a.time < b.time) return 1;
+                else return 0;
+            }
+            idx.sort(sorter)
             let response = {
                 status: 1, data: idx
             }
@@ -74,9 +77,12 @@ router.get('/getblogs', (req,res) => {
                 })
                 infoList.push(s);
             })
-            infoList.sort( (a, b)=>{
-                    return a.time < b.time;
-                })
+            function sorter(a,b){
+                if(a.time > b.time) return -1;
+                else if(a.time < b.time) return 1;
+                else return 0;
+            }
+            infoList.sort(sorter)
             let response = {
                 status: 1, data: infoList
             }
