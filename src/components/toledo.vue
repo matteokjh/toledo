@@ -1,7 +1,7 @@
 <!-- toledo.vue -->
 <template>
     <transition name="slide">
-        <div class="toledo">
+        <div class="toledo" v-show='show'>
             <header>
                 <a href="javascript:void(0)" onclick="location.reload()"><p>{{ title }}</p></a>
                 <small class="time">--{{time}}发布:)</small>
@@ -53,7 +53,8 @@ export default {
             raw: '',
             indexList: [],
             prev: '',
-            next: ''
+            next: '',
+            show: false
         }
     },
     methods: {
@@ -72,6 +73,8 @@ export default {
                 blogCSS();//CSS布局
             },500)
         }
+
+        this.show = true;
         
 
         var ttt = 0;
@@ -241,7 +244,7 @@ pre code {
 }
 .slide-enter {
     opacity: 0;
-    transform: translate(-3%, -10%);
+    transform: translate(-10px, -50px);
 }
 .slide-enter-active {
     transition: all .6s;

@@ -1,7 +1,7 @@
 <!-- index.vue -->
 <template>
     <transition name="slide">
-        <div class="index">
+        <div class="index" v-show='show'>
             <header>
                 <a href="./"><p>{{ name }}'s Blog</p></a>
                 <small class="update">--{{ updateDate }}更新:)</small>
@@ -36,7 +36,8 @@ export default {
             updateDate: '2018-04-16',
             articles: [], //全部
             totalPages: 0,
-            theArticles: [] //该页包含
+            theArticles: [], //该页包含
+            show: false
         }
     },
     methods: {
@@ -49,7 +50,7 @@ export default {
         this.$http.get(origin + ':3003/users/getblogs')
         .then( response => {
             this.articles = response.data.data;
-            console.log(this.articles)
+            // console.log(this.articles)
             let total = this.articles.length;
             this.totalPages = Math.ceil(total/this.articlesPerPage);
             var pageArticles = [];
@@ -70,6 +71,7 @@ export default {
                 }
             }
             this.theArticles = a;
+            this.show = true;
         })
 
         //出场动画
@@ -85,7 +87,7 @@ header {
 }
 .slide-enter {
     opacity: 0;
-    transform: translate(-3%, -10%);
+    transform: translate(-10px, -50px);
 }
 .slide-enter-active {
     transition: all .6s;
