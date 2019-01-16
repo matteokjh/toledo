@@ -150,6 +150,160 @@ A.prototype.isPrototypeOf(c); //true
 
 ### Chapter 7.函数表达式
 
+#### 递归
+
+阶乘：
+```javascript
+function a(num){
+    if(num <= 1){
+        return 1;
+    }else {
+    //这样写能避免函数名改了之后无效，但是严格模式下不能访问callee；
+        return num * arguments.callee(num - 1); 
+    }
+}
+```
+```javascript
+var a = (function f(num){//通过命名函数来解决这种问题
+    if(num <= 1){
+        return 1;
+    }else {
+        return num * f(num - 1); 
+    }
+})
+```
+
+#### 闭包与this
+
+闭包：有权访问另一个函数作用域中的变量的函数；
+
+```javascript
+function createComparisonFunction(propertyName){
+    return function(object1,object2){
+        var value1 = object1[propertyName];
+        var value2 = object2[propertyName];
+        if(value1 < value2){
+            return -1;
+        }else if(value1 > value2){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+}
+//创建闭包内调用了外部变量propertyName，
+//导致propertyName这个局部变量在其函数执行完毕之后也不会销毁，要手动 = null；
+```
+
+eg:
+```javascript
+function createFunctions(){
+    var result = new Array();
+    for(var i = 0; i < 10; i++){
+        result[i] = function(){
+            return i;
+        }
+    }
+    return result;
+}
+
+createFunctions()[0]() //10
+createFunctions()[1]() //10
+createFunctions()[2]() //10
+...
+createFunctions()[9]() //10
+```
+发生这种现象的原因就是因为闭包让每个函数（result）都保留着createFunctions的变量i，它们引用着同一个i，所以都返回10；
+
+解决方法是创建另一个匿名函数让闭包符合预期：
+```javascript
+function createFunctions(){
+    var result = new Array();
+    for(var i = 0; i < 10; i++){
+        result[i] = function(num){
+            return function(){
+                return num;
+            }
+        }(i)//加了这个表示立即执行，并把i传进去
+    }
+    return result;
+}
+createFunctions()[0]() //0
+createFunctions()[1]() //1
+createFunctions()[2]() //2
+...
+createFunctions()[9]() //10
+```
+
+匿名函数中，this指向全局对象：
+
+```javascript
+var name = 'the window';
+
+var object = {
+    name: 'my object',
+    getnameFunc: function(){
+        return function(){
+            return this.name;
+        }
+    }
+}
+
+console.log(object.getnameFunc()()); //the window
+```
+想要指向正确的对象，可以：
+```javascript
+var name = 'the window';
+
+var object = {
+    name: 'my object',
+    getnameFunc: function(){
+        var that = this;
+        return function(){
+            return that.name;
+        }
+    }
+}
+
+console.log(object.getnameFunc()()); //my object
+```
+或者不用匿名函数：
+```javascript
+var name = 'the window';
+
+var object = {
+    name: 'my object',
+    getnameFunc: function(){
+        return this.name;
+    }
+}
+
+console.log(object.getnameFunc()); //my object
+```
+
 ---
 
-to be continued.
+### Chapter 8.BOM
+
+#### window对象
+
+document.documentElement.clientHeight --- 可见区域高度
+
+#### location对象
+
+#### navigator对象
+
+#### screen对象
+
+#### history对象
+
+---
+
+...
+
+越写越发觉得这样写没什么用，写不到深处，理解不到精髓，单纯抄书而已，所以今后还是按照说好的按模块写吧w(~~我真对得起自己的星座~~)
+
+---
+
+终了.
+
