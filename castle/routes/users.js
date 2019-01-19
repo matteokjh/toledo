@@ -67,10 +67,10 @@ router.get('/getblogs', (req,res) => {
                 summary.forEach( e => {
                     if(e.indexOf('title') === 0)  {
                         s.title = e.split(': ')[1];
-                        console.log(s.title);
+                        // console.log(s.title);
                         fs.stat(`./${COMPONENT}/${s.title}.md`, (err, stats) => {
-                            console.log(s.title,stats);
-                            // s.mtime = stats.mtime.toLocaleString().split(" ")[0];
+                            // console.log(s.title,stats);
+                            s.mtime = stats.mtime.toLocaleString().split(" ")[0];
                         })
                     }
                     if(e.indexOf('date') === 0)  s.time = e.split(' ')[1];
