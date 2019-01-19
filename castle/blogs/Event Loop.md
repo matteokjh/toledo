@@ -32,35 +32,58 @@ JS事件循环机制
  
  - 渲染进程：页面渲染进程，每个页面对应一个（非空），内部多线程，负责渲染页面、执行脚本、事件处理等； 
  
+
 虽然多进程会使浏览器占用较多内存资源，但是多进程能够提升运行效率(多核优势)，避免某个页面或者插件崩溃而影响到其它页面，提高浏览器的稳定性；
  
 其中，跟JS有关的进程就是渲染进程啦~
 
 以下是该进程内部的线程：
 
-**渲染进程**
+#### 渲染进程
 
-1. GUI渲染线程：（Graphical User Interface）
-    1. 渲染浏览器界面，解析HTML、CSS，构建DOM树和RenderObject树，对于特定的object，浏览器还会renderLayer，没有layer的object默认从属父节点的layer；布局和绘制等；
-    2. 当界面需要重绘(repaint)或者由于某种操作引发回流(reflow)的时候，该线程就会执行；
-    3. 该线程与JS引擎线程互斥，JS引擎执行时该线程会被挂起，被保存在一个队列中等待JS引擎空闲时再立即被执行；
-2. JS引擎线程:
-    1. 又称JS内核，负责JS脚本程序的处理(V8);
-    2. 该线程负责解析JS脚本，运行代码；
-    3. 由于互斥关系，如果JS执行时间过长，会影响GUI渲染，导致加载阻塞；
-3. 事件触发线程：
-    1. 浏览器另开的一个专负责事件循环的线程，协助JS引擎；
-    2. 浏览器的一些异步请求（ajax）、settimeout、鼠标点击等来自其他线程的任务会添加到事件线程中；
-    3. 当事件符合触发条件，该线程会把事件添加到待处理队列的队尾，等待JS引擎处理；
-    4. 由于JS是单线程，所以才有待处理队列，排队等待JS空闲时一一处理；
-4. 定时触发线程：
-    1. setTimeout、setInterval所在线程；
-    2. 定时计数器不是JS引擎计数的，因为JS引擎是单线程，会影响计时准确；
-    3. 所以通过该线程计时，计时完毕后添加到事件队列中等待JS引擎空闲后执行；
-    4. W3C规定setTimeout低于4ms的时间间隔算为4ms；
-5. 异步Http请求线程：
-    1. XMLHttpRequest在连接之后是通过浏览器新开一个线程请求；
-    2. 如果检测到状态变更，如果设置了回调函数，异步线程会产生状态变更事件，将这个回调放入事件队列等待JS引擎空闲时执行；
+**1.GUI渲染线程：（Graphical User Interface）**
+
+- 渲染浏览器界面，解析HTML、CSS，构建DOM树和RenderObject树，对于特定的object，浏览器还会renderLayer，没有layer的object默认从属父节点的layer；布局和绘制等；
+
+- 当界面需要重绘(repaint)或者由于某种操作引发回流(reflow)的时候，该线程就会执行；
+
+- 该线程与JS引擎线程互斥，JS引擎执行时该线程会被挂起，被保存在一个队列中等待JS引擎空闲时再立即被执行；
+
+**2.JS引擎线程:**
+
+- 又称JS内核，负责JS脚本程序的处理(V8);
+
+- 该线程负责解析JS脚本，运行代码；
+
+- 由于互斥关系，如果JS执行时间过长，会影响GUI渲染，导致加载阻塞；
+
+**3.事件触发线程：**
+
+- 浏览器另开的一个专负责事件循环的线程，协助JS引擎；
+
+- 浏览器的一些异步请求（ajax）、settimeout、鼠标点击等来自其他线程的任务会添加到事件线程中；
+
+- 当事件符合触发条件，该线程会把事件添加到待处理队列的队尾，等待JS引擎处理；
+
+- 由于JS是单线程，所以才有待处理队列，排队等待JS空闲时一一处理；
+
+**4.定时触发线程：**
+
+- setTimeout、setInterval所在线程；
+
+- 定时计数器不是JS引擎计数的，因为JS引擎是单线程，会影响计时准确；
+
+- 所以通过该线程计时，计时完毕后添加到事件队列中等待JS引擎空闲后执行；
+
+- W3C规定setTimeout低于4ms的时间间隔算为4ms；
+
+**5.异步Http请求线程：**
+
+- XMLHttpRequest在连接之后是通过浏览器新开一个线程请求；
+
+- 如果检测到状态变更，如果设置了回调函数，异步线程会产生状态变更事件，将这个回调放入事件队列等待JS引擎空闲时执行；
+
+<br>
 
 **Web Worker**
 
@@ -72,10 +95,15 @@ JS引擎线程与worker线程通过特定的方式通信(postMessage API);
 
 web worker是一个子线程，sharedWorker是独立进程；
 
+<br>
+
 **load事件与DOMContentLoaded事件**
 
  - DOM加载完成时，不包括样式表和图片，会触发DOMContentLoaded事件；
+
  - 而onload事件触发时则表示页面上所有的DOM，样式表，脚本，图片都加载完成；
+
+<br>
 
 **CSS是由单独的下载线程异步下载**
 
@@ -86,12 +114,18 @@ css加载不会阻塞DOM树解析，但是会阻塞render树渲染(因为渲染�
 ### Event Loop
 
  - JS有**同步任务**和**异步任务**
+
  - 同步任务在主线程执行，放在**执行栈**中
+
  - 事件触发线程管理一个**任务队列**，当异步任务有运行结果，就放在任务队列中；
+
  - 一旦执行栈空了，系统就会读取任务队列，将可运行的异步任务添加到执行栈中，开始执行；
+
 
 ![](/static/img/loop3.png)
 事件循环图(引用参考文章)
+
+<br>
 
 **setTimeout和setInterval**
 
@@ -113,6 +147,8 @@ console.log(2);
 由于setInterval容易产生累计效应：
 
 如果上一次事件执行时间过长导致下一次interval到了上一次都还没执行完，就会gg；
+
+<br>
 
 参考文章的作者强烈推荐的一篇文章：
 
@@ -155,6 +191,8 @@ console.log('script end');
 
 **micro task**：微任务(job)，当前task结束后(下一个task开始前)立即执行的任务；
 
+<br>
+
 常用场景：
 
  - macrotask：主代码块、setTimeout、setInterval等(事件队列中的每一个都是)
@@ -166,6 +204,8 @@ console.log('script end');
 另外，macrotask的事件放在事件队列中，由**事件触发线程**维护（只是维护，当要执行的时候是JS引擎从这里拿过去执行的）；
 
 而microtask的所有微任务有一个微任务队列，是由**JS引擎**维护；
+
+<br>
 
 Epic Boss：
 ```html
@@ -223,14 +263,23 @@ outer.addEventListener('click', onClick);
 注意，mutationObserver是html5开始支持的监听dom树变化的方法；
 
 点击内部的元素：
-1. 首先console一个click；
-2. 遇到setTimeout把它的回调加入事件队列；
-3. 遇到Promise，放入microtask队列；
-4. 遇到setAttribute，把mutate放入microtask队列；
-5. 一轮macrotask走完，开始执行microtask：promise -> mutate；
-6. 事件冒泡到outer，执行1到5步相同操作；
-7. 开始新一轮macrotask， -> timeout；
-8. 同上
+1.首先console一个click；
+
+2.遇到setTimeout把它的回调加入事件队列；
+
+3.遇到Promise，放入microtask队列；
+
+4.遇到setAttribute，把mutate放入microtask队列；
+
+5.一轮macrotask走完，开始执行microtask：promise -> mutate；
+
+6.事件冒泡到outer，执行1到5步相同操作；
+
+7.开始新一轮macrotask， -> timeout；
+
+8.同上
+
+<br>
 
 **Legend Boss**：
 
@@ -240,15 +289,24 @@ inner.click();
 ```
 这样做的变化是不直接做点击而是直接脚本执行：
 
-1. 开始执行inner.click()，放入执行栈;
-2. 触发onClick，放入执行栈；
-3. -> click;
-4. setTimeout放入task队列，promise放入microtask队列，mutate放入microtask队列；
-5. onclick出栈，此时还不能执行微任务，因为执行栈中非空，还有inner.click()在栈中(应该是由于冒泡)
-6. 开始冒泡，执行第3、第4步，但是注意，当有一个mutation的microtask在pending的时候不会产生新的mutation，所以这里没有第二个mutation微任务；
-7. onclick出栈，click也出栈，开始执行微任务！
-8. promise -> mutate -> promise
-9. 执行下一轮macrotask，timeout -> timeout
+1.开始执行inner.click()，放入执行栈;
+
+2.触发onClick，放入执行栈；
+
+3.-> click;
+
+4.setTimeout放入task队列，promise放入microtask队列，mutate放入microtask队列；
+
+5.onclick出栈，此时还不能执行微任务，因为执行栈中非空，还有inner.click()在栈中(应该是由于冒泡)
+
+6.开始冒泡，执行第3、第4步，但是注意，当有一个mutation的microtask在pending的时候不会产生新的mutation，所以这里没有第二个mutation微任务;
+
+7.onclick出栈，click也出栈，开始执行微任务！
+
+8.promise -> mutate -> promise
+
+9.执行下一轮macrotask，timeout -> timeout
+
 
 最终答案是：
 ```javascript
