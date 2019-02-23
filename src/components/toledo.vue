@@ -78,8 +78,11 @@ export default {
         
 
         var ttt = 0;
-        let origin = location.origin.split(':').splice(0,2).join(":");
-        this.$http.get(origin+':3003/users/getdetails',{
+        // let origin = location.origin.split(':').splice(0,2).join(":");
+        // origin = origin.replace('https','http');
+
+        let origin = 'https://api.sulpures.com/'
+        this.$http.get(origin+'users/getdetails',{
             params: {
                 title: this.title
             }
@@ -102,7 +105,7 @@ export default {
             }
             // console.log(links)
         });
-        this.$http.get(origin + ':3003/users/getblogs',{
+        this.$http.get(origin + 'users/getblogs',{
             params: {
                 title: this.title
             }

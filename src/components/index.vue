@@ -46,8 +46,10 @@ export default {
         }
     },
     mounted() {
-        let origin = location.origin.split(':').splice(0,2).join(":");
-        this.$http.get(origin + ':3003/users/getblogs')
+        // let origin = location.origin.split(':').splice(0,2).join(":");
+        // origin = origin.replace('https','http');
+        let origin = 'https://api.sulpures.com/'
+        this.$http.get(origin + 'users/getblogs')
         .then( response => {
             this.articles = response.data.data;
             // console.log(this.articles)
