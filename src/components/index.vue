@@ -40,6 +40,7 @@
             <div class="location"><span></span><p>广东·广州</p></div>
             <div class="mail"><span></span><p>429797371@qq.com</p></div>
             <div class="mail"><span></span><p>matteokjh@hotmail.fr</p></div>
+            <div class="github"><a href="https://matteokjh.github.io/" target='_blank'><span></span><p>旧博客：matteokjh.github.io</p></a></div>
             <div class="github"><a href="https://github.com/matteokjh" target='_blank'><span></span><p>github.com/matteokjh</p></a></div>
         </div>
         <transition name='mask'>
@@ -144,6 +145,8 @@ export default {
     font-size: 20px;
     text-shadow: 0 0 5px #b5b5b5;
     user-select: none;
+    text-align: center;
+    color: #e6e6e6;
 }
 .quote {
     margin: 30px;
@@ -153,6 +156,7 @@ export default {
     user-select: none;
     cursor: pointer;
     text-align: center;
+    color: #e6e6e6;
 }
 .location,.mail,.github {
     margin: 15px 30px;
@@ -358,7 +362,11 @@ footer {
     background-color: #2d2d2d;
     transition: all .5s;
     box-shadow: 0px 0 1px 1px #2d2d2d;
+}
+.aboutme p{
     color: #e6e6e6;
+    font-size: 15px;
+    line-height: initial;
 }
 .mask {
     width: 100vw;
