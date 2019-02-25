@@ -1,29 +1,51 @@
 <!-- index.vue -->
 <template>
-    <transition name="slide">
-        <div class="index" v-show='show'>
-            <header>
-                <a href="./"><p>{{ name }}'s Blog</p></a>
-                <small class="update">--{{ updateDate }}更新:)</small>
-            </header>
-            
-            <div class="articles">
-                <div class="article" v-for="(e, idx) in theArticles[currentIndex]">
-                    <router-link :to="{path:'toledo',query:{ title: e.title }}" class="title" target="_blank"><p>{{ e.title }}</p></router-link>
-                    <p class="time">{{ e.time }}</p>
-                    <div :class="{ 'tags' : e.tags[0]!=='' }" >
-                        <router-link to="" v-for="(t, idx) in e.tags" :key="idx"><p>{{ t }}</p></router-link> 
+    <div>
+        <transition name="slide">
+            <div class="index" v-show='show' :style="{
+                'transform': 'translateX('+movement1+'px)'
+            }">
+                <header>
+                    <a href="./"><p>{{ name }}'s Blog</p></a>
+                    <small class="update">--{{ updateDate }}更新:)</small>
+                </header>
+                
+                <div class="articles">
+                    <div class="article" v-for="(e, idx) in theArticles[currentIndex]">
+                        <router-link :to="{path:'toledo',query:{ title: e.title }}" class="title" target="_blank"><p>{{ e.title }}</p></router-link>
+                        <p class="time">{{ e.time }}</p>
+                        <div :class="{ 'tags' : e.tags[0]!=='' }" >
+                            <router-link to="" v-for="(t, idx) in e.tags" :key="idx"><p>{{ t }}</p></router-link> 
+                        </div>
                     </div>
                 </div>
+                <footer>
+                    <div class="page" v-for="(e, idx) in totalPages">
+                        <span @click ="jump(idx)" :class= "idx === currentIndex ? 'activated' : '' ">{{ idx }}</span>
+                    </div>
+                </footer>
             </div>
-            <footer>
-                <div class="page" v-for="(e, idx) in totalPages">
-                    <span @click ="jump(idx)" :class= "idx === currentIndex ? 'activated' : '' ">{{ idx }}</span>
-                </div>
-            </footer>
+        </transition>
+        <transition name='btn'>
+           <div class="showmebtn" v-show ='showbtn' @click='changeShowme()' :style="{
+                'right': movement2+410+'px'
+            }"></div>
+        </transition>
+        <div class="aboutme" :style="{
+            'right': movement2+'px'
+        }">
+            <div class="avatar"></div>
+            <div class="name">Mattéo Kwong</div>
+            <div class="quote" @click='showQuote()'>「 Valar Morghulis 」</div>
+            <div class="location"><span></span><p>广东·广州</p></div>
+            <div class="mail"><span></span><p>429797371@qq.com</p></div>
+            <div class="mail"><span></span><p>matteokjh@hotmail.fr</p></div>
+            <div class="github"><a href="https://github.com/matteokjh" target='_blank'><span></span><p>github.com/matteokjh</p></a></div>
         </div>
-           
-    </transition>
+        <transition name='mask'>
+            <div class="mask" @click='offmask()' v-show='showme'></div>
+        </transition>
+    </div>
 </template>
 
 <script>
@@ -33,16 +55,34 @@ export default {
             currentIndex: 0,
             articlesPerPage: 7,
             name: 'Caster',
-            updateDate: '2018-04-16',
+            updateDate: '2019-02-26',
             articles: [], //全部
             totalPages: 0,
             theArticles: [], //该页包含
-            show: false
+            show: false,
+            showme: false,
+            showbtn: false,
+            movement1: '',
+            movement2: -353,
         }
     },
     methods: {
         jump: function(idx){
             this.currentIndex = idx;
+        },
+        changeShowme(){
+            this.showme = true;
+            this.movement1 = -150;
+            this.movement2 = 0;
+        },
+        offmask(){
+            this.showme = false;
+            this.movement1 = 0;
+            this.movement2 = -353;
+
+        },
+        showQuote(){
+            console.log('Valar Dohaeris')
         }
     },
     mounted() {
@@ -74,6 +114,11 @@ export default {
             }
             this.theArticles = a;
             this.show = true;
+            setTimeout(e=>{
+                this.showbtn = true;
+            },1000)
+
+            
         })
 
         //出场动画
@@ -84,6 +129,73 @@ export default {
 </script>
 
 <style scoped>
+.avatar {
+    background-image: url('../assets/avatar.jpg');
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 80px auto 20px auto;
+    box-shadow: 0 0 3px 3px #333;
+    border-radius: 5px;
+}
+.name {
+    font-size: 20px;
+    text-shadow: 0 0 5px #b5b5b5;
+    user-select: none;
+}
+.quote {
+    margin: 30px;
+    padding: 40px 0;
+    border-top: 10px solid #555;
+    border-bottom: 10px solid #555;
+    user-select: none;
+    cursor: pointer;
+    text-align: center;
+}
+.location,.mail,.github {
+    margin: 15px 30px;
+    text-align: left;
+}
+.location span, .github span, .mail span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.location span {
+    background-image: url('../assets/icon-location.png');
+}
+.github span {
+    background-image: url('../assets/github.png');
+}
+.mail span  {
+    background-image: url('../assets/mail.png');
+}
+.location p, .mail p, .github p {
+    display: inline-block;
+    height: 20px;
+    vertical-align: middle;
+}
+.github a {
+    display: block;
+}
+.github p {
+    transition: all .3s;
+    border-bottom: 1px solid transparent;
+}
+.github p:hover {
+    border-bottom: 1px solid #e6e6e6;
+}
+.index {
+    transition: transform .5s;
+    transition-delay: .2s;
+}
 header {
     border-bottom: 1px dotted #aaa;
 }
@@ -97,6 +209,12 @@ header {
 .slide-enter-to {
     opacity: 1;
     transform: translate(0);
+}
+.btn-enter {
+    opacity: 0;
+}
+.btn-enter-to {
+    opacity: 1;
 }
 a {
     text-decoration: none;
@@ -210,6 +328,55 @@ footer {
 }
 .activated {
     color: #aaa;
+}
+.showmebtn {
+    position: fixed;
+    top: 20px;;
+    right: 60px;
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-image: url('../assets/menu.png');
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    transition: all .5s;
+}
+.showmebtn:hover {
+    border: 1px solid #bbb;
+    box-shadow: 0 0 1px 1px #eee;
+}
+.aboutme {
+    position: fixed;
+    z-index: 999;
+    right: -353px;
+    top: 0;
+    width: 350px;
+    height: 100vh;
+    background-color: #2d2d2d;
+    transition: all .5s;
+    box-shadow: 0px 0 1px 1px #2d2d2d;
+    color: #e6e6e6;
+}
+.mask {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(103, 97, 97, 0.4);
+    transition: all .5s;
+}
+.mask-enter {
+    opacity: 0;
+}
+.mask-enter-to {
+    opacity: 1;
+}
+.mask-leave-to {
+    opacity: 0;
 }
 
 </style>
