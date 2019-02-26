@@ -49,10 +49,11 @@
     </div>
 
     <!-- mobile -->
-    <div v-else class='ccc' :style="{
-        'overflow': showme ? 'hidden' : 'auto'
-    }">
-            <div class="m-index" v-show='show'>
+    <div v-else class='ccc'>
+            <div class="m-index" v-show='show' :style="{
+                'height': showme ? '100vh' : 'auto',
+                'overflow-y': showme ? 'hidden' : 'auto'
+            }">
                 <header>
                     <a href="./"><p>{{ name }}'s Blog</p></a>
                     <small class="update">--{{ updateDate }}更新:)</small>
@@ -199,17 +200,19 @@ export default {
 }
 .ccc {
     width: 100vw;
-    height: 100vh;
+    height: auto;
     position: relative;
+    overflow-x: hidden;
 }
 .m-index header {
     position: relative;
-    font-size: 25px;
     padding: 5vh 10vw;
     text-align: left;    
     width: 80vw;
     border-bottom: 1px dotted #aaa;
-
+}
+.m-index header p {
+    font-size: 25px;
 }
 .m-aboutme .avatar {
     background-image: url('../assets/avatar.jpg');
@@ -335,12 +338,12 @@ a {
     background-position: center;
 }
 .m-aboutme {
-    position: fixed;
+    position: absolute;
     z-index: 999;
     right: -100vw;
     top: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background-color: #2d2d2d;
     transition: all .5s;
     overflow: scroll;
@@ -422,6 +425,8 @@ a {
 .index {
     transition: transform .5s;
     transition-delay: .2s;
+    width: 600px;
+    margin: 0 auto;
 }
 header {
     border-bottom: 1px dotted #aaa;

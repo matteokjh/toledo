@@ -25,21 +25,16 @@ export default {
     padding: 0;
     font-family: consolas;
 }
-html {
-    max-width: 1920px;
-    max-height: 1080px;
-    overflow-X: hidden;
-}
 body {
-    width: 600px;
     height: 100%;
     margin: 0 auto;
     background-color: white;
     position: relative;
+    overflow-x: hidden;
 }
 header {
     position: relative;
-    font-size: 2rem;
+    font-size: 30px;
     padding: 5% 10%;
     text-align: left;
     user-select: none;

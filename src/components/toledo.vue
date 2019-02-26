@@ -210,14 +210,17 @@ export default {
     font-size: 13px;
     opacity: 1;
 }
-.m-toledo {
-
+.m-toledo footer{
+    padding: 0 2vw;
 }
-.m-toledo {
-
+.m-toledo footer a{
+    max-width: 50%;
+}
+.m-toledo footer p{
+    font-size: 12px;
 }
 .m-toledo header p {
-    font-size: 25px;
+    font-size: 20px;
 }
 .hljs-params {
     color: #75715e;
@@ -390,9 +393,13 @@ footer p:hover {
     opacity: 1;
 }
 img {
-    max-width: 600px;
+    max-width: 100%;
 }
 blockquote p {
     white-space: pre-wrap;
+}
+.toledo {
+    width: 600px;
+    margin: 0 auto;
 }
 </style>
