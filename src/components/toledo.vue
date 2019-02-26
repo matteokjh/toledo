@@ -28,7 +28,7 @@
                 <router-link target="_blank" :to="{path:'toledo',query:{title: this.next}}"><p v-if="this.next">下一篇: {{ this.next }}</p></router-link>
             </footer>
 
-            <div id="m-container"></div>
+            <div id="container"></div>
         </div>
     </transition>
 </template>
