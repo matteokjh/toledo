@@ -1,6 +1,6 @@
 <!-- index.vue -->
 <template>
-    <div>
+    <div v-if='!isMobile'>
         <transition name="slide">
             <div class="index" v-show='show' :style="{
                 'transform': 'translateX('+movement1+'px)'
@@ -47,6 +47,47 @@
             <div class="mask" @click='offmask()' v-show='showme'></div>
         </transition>
     </div>
+
+    <!-- mobile -->
+    <div v-else class='ccc' :style="{
+        'overflow': showme ? 'hidden' : 'auto'
+    }">
+            <div class="m-index" v-show='show'>
+                <header>
+                    <a href="./"><p>{{ name }}'s Blog</p></a>
+                    <small class="update">--{{ updateDate }}更新:)</small>
+                </header>
+                
+                <div class="articles">
+                    <div class="article" v-for="(e, idx) in theArticles[currentIndex]">
+                        <router-link :to="{path:'toledo',query:{ title: e.title }}" class="title" target="_blank"><p>{{ e.title }}</p></router-link>
+                        <p class="time">{{ e.time }}</p>
+                        <div :class="{ 'tags' : e.tags[0]!=='' }" >
+                            <router-link to="" v-for="(t, idx) in e.tags" :key="idx"><p>{{ t }}</p></router-link> 
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <div class="page" v-for="(e, idx) in totalPages">
+                        <span @click ="jump(idx)" :class= "idx === currentIndex ? 'activated' : '' ">{{ idx }}</span>
+                    </div>
+                </footer>
+            </div>
+            <div class="showmebtn" @click='mchangeShowme()'></div>
+            <div class="m-aboutme" :style="{
+                'right': movement2+'vw'
+            }">
+                <span class="back" @click='moffmask()'></span>
+                <div class="avatar"></div>
+                <div class="name">Mattéo Kwong</div>
+                <div class="quote" @click='showQuote()'>「 Valar Morghulis 」</div>
+                <div class="location"><span></span><p>广东·广州</p></div>
+                <div class="mail"><span></span><p>429797371@qq.com</p></div>
+                <div class="mail"><span></span><p>matteokjh@hotmail.fr</p></div>
+                <div class="github"><a href="https://matteokjh.github.io/" target='_blank'><span></span><p>旧博客：matteokjh.github.io</p></a></div>
+                <div class="github"><a href="https://github.com/matteokjh" target='_blank'><span></span><p>github.com/matteokjh</p></a></div>
+            </div>
+    </div>
 </template>
 
 <script>
@@ -65,6 +106,7 @@ export default {
             showbtn: false,
             movement1: '',
             movement2: -353,
+            isMobile: ''
         }
     },
     methods: {
@@ -80,15 +122,29 @@ export default {
             this.showme = false;
             this.movement1 = 0;
             this.movement2 = -353;
-
         },
         showQuote(){
             console.log('Valar Dohaeris')
+        },
+        mchangeShowme(){
+            this.showme = true;
+            this.movement2 = 0;
+        },
+        moffmask(){
+            this.showme = false;
+            this.movement2 = -100;
         }
+
     },
     mounted() {
         // let origin = location.origin.split(':').splice(0,2).join(":");
         // origin = origin.replace('https','http');
+        var ua = navigator.userAgent;
+        var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+        let isIphone =!ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+        let isAndroid = ua.match(/(Android)\s+([\d.]+)/);
+        this.isMobile = isIphone || isAndroid;
+
         let origin = 'https://api.sulpures.com/'
         this.$http.get(origin + 'users/getblogs')
         .then( response => {
@@ -128,6 +184,173 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.back {
+    background-image: url('../assets/left-arrow.png');
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    float: left;
+    margin: 15px;
+    transform: rotate(180deg);
+}
+.ccc {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+.m-index header {
+    position: relative;
+    font-size: 25px;
+    padding: 5vh 10vw;
+    text-align: left;    
+    width: 80vw;
+    border-bottom: 1px dotted #aaa;
+
+}
+.m-aboutme .avatar {
+    background-image: url('../assets/avatar.jpg');
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 80px auto 20px auto;
+    box-shadow: 0 0 3px 3px #333;
+    border-radius: 5px;
+}
+.m-aboutme .name {
+    font-size: 20px;
+    text-shadow: 0 0 5px #b5b5b5;
+    user-select: none;
+    text-align: center;
+    color: #e6e6e6;
+}
+.m-aboutme .quote {
+    margin: 30px;
+    padding: 40px 0;
+    border-top: 10px solid #555;
+    border-bottom: 10px solid #555;
+    user-select: none;
+    cursor: pointer;
+    text-align: center;
+    color: #e6e6e6;
+}
+.m-aboutme .location,.m-aboutme .mail,.m-aboutme .github {
+    margin: 15px 30px;
+    text-align: left;
+}
+.m-aboutme .location span, .m-aboutme .github span, .m-aboutme .mail span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    vertical-align: middle;
+    margin-right: 3px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.m-index .update {
+    display: inline-block;
+    position: absolute;
+    right: 1%;
+    bottom: 0;
+    height: 20px;
+    font-size: 13px;
+    opacity: 1;
+}
+.articles {
+    width: 100%;
+}
+.m-index .article {
+    position: relative;
+    padding: 5vw 0vh;
+    border-bottom: 1px solid #eee;
+}
+.article:last-child {
+    border-bottom: none;
+}
+.m-index .title p {
+    display: inline;
+    font-size: 14px;
+}
+.m-index .time {
+    font-size: .5rem;
+    position: absolute;
+    right: 3%;
+    bottom: 5%;
+    color: #aaa;
+    opacity: 1;
+}
+.article:hover > .time {
+    opacity: 1;
+}
+.m-index .tags {
+    width: 97%;
+    font-size: .12px;
+    text-align: left;
+    margin-left: 3vw;
+    margin-top: 3vh;
+    margin-bottom: -1vh;
+}
+.m-index .tags a {
+    display: inline-block;
+    user-select: none;
+    border-radius: 10px;
+    padding: 0 3%;
+    margin: 0 .5%;
+    background-color: rgb(148,148,148);
+    opacity: .4;
+    transition: all .3s;
+    cursor: pointer;
+}
+.m-index .tags a p {
+    line-height: 2em;
+    color: rgb(255,255,255);
+    font-size: .8rem;
+}
+.tags a:hover {
+    opacity: .6;
+}
+.activated {
+    color: #aaa;
+}
+.m-index + .showmebtn {    
+    position: absolute;
+    top: 5vh;
+    right: 7vw;
+    width: 15vw;
+    height: 5vh;
+    background-image: url('../assets/menu.png');
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+}
+.m-aboutme {
+    position: fixed;
+    z-index: 999;
+    right: -100vw;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #2d2d2d;
+    transition: all .5s;
+    overflow: scroll;
+}
+.m-aboutme p{
+    color: #e6e6e6;
+    font-size: 15px;
+    line-height: initial;
+}
+</style>
 
 <style scoped>
 .avatar {

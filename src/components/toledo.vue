@@ -1,6 +1,6 @@
 <!-- toledo.vue -->
 <template>
-    <transition name="slide">
+    <transition v-if='!isMobile' name="slide">
         <div class="toledo" v-show='show'>
             <header>
                 <a href="javascript:void(0)" onclick="location.reload()"><p>{{ title }}</p></a>
@@ -13,6 +13,22 @@
             </footer>
 
             <div id="container"></div>
+        </div>
+    </transition>
+
+    <transition v-else-if='isMobile' name="slide">
+        <div class="m-toledo" v-show='show'>
+            <header>
+                <a href="javascript:void(0)" onclick="location.reload()"><p>{{ title }}</p></a>
+                <small class="time">--{{time}}发布:)</small>
+            </header>
+            <div v-html = 'raw' class="m-t-detail"></div>
+            <footer>
+                <router-link target="_blank" :to="{path:'toledo',query:{title: this.prev}}"><p v-if="this.prev">上一篇：{{ this.prev }}</p></router-link>
+                <router-link target="_blank" :to="{path:'toledo',query:{title: this.next}}"><p v-if="this.next">下一篇: {{ this.next }}</p></router-link>
+            </footer>
+
+            <div id="m-container"></div>
         </div>
     </transition>
 </template>
@@ -54,13 +70,19 @@ export default {
             indexList: [],
             prev: '',
             next: '',
-            show: false
+            show: false,
+            isMobile: ''
         }
     },
     methods: {
         
     },
     mounted() {
+        var ua = navigator.userAgent;
+        var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+        let isIphone =!ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/)
+        let isAndroid = ua.match(/(Android)\s+([\d.]+)/)
+        this.isMobile = isIphone || isAndroid;
         console.log("%c<font color='#f38181'>红</font>","color: #f38181");
         console.log("%c<font color='#fce38a'>黄</font>","color: #fce38a");
         console.log("%c<font color='#f08a5d'>橘</font>","color: #f08a5d");
@@ -168,6 +190,35 @@ export default {
 </script>
 
 <style>
+.m-toledo hr {
+    margin: 5vh 0;
+}
+.m-t-detail {
+    width: 90vw;
+    padding: 0 5vw;
+}
+.m-toledo header{
+    padding: 5vh 5vw;
+    width: 90vw;
+}
+.m-toledo .time {
+    display: inline-block;
+    position: absolute;
+    right: 5vw;
+    bottom: 0;
+    height: 20px;
+    font-size: 13px;
+    opacity: 1;
+}
+.m-toledo {
+
+}
+.m-toledo {
+
+}
+.m-toledo header p {
+    font-size: 25px;
+}
 .hljs-params {
     color: #75715e;
 }
