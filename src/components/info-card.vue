@@ -144,7 +144,7 @@ export default {
     overflow: scroll;
 }
 .m-info-card .m-aboutme p{
-    color: #e6e6e6;
+    color: #e6e6e6 !important;
     font-size: 15px;
     line-height: initial;
     display: inline-block;
@@ -183,7 +183,7 @@ export default {
   box-shadow: 0px 0 1px 1px #2d2d2d;
 }
 .aboutme p {
-  color: #e6e6e6;
+  color: #e6e6e6!important;
   font-size: 15px;
   line-height: initial;
 }
@@ -266,6 +266,7 @@ export default {
   display: inline-block;
   height: 20px;
   vertical-align: middle;
+  color: #e6e6e6;
 }
 .github a {
   display: block;

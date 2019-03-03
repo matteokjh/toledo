@@ -70,7 +70,7 @@ export default {
             currentIndex: 0,
             articlesPerPage: 7,
             name: 'Caster',
-            updateDate: '2019-02-26',
+            updateDate: '2019-03-03',
             articles: [], //全部
             totalPages: 0,
             theArticles: [], //该页包含
@@ -180,7 +180,8 @@ console.log(`
             this.quote = "night's watch"
         }
 
-        //出场动画
+        this.quote = this.state ? "night's watch" : 'Valar Morghulis'
+        
 
     }
 
@@ -311,7 +312,7 @@ header:hover > small {
 }
 .tags a p {
   line-height: 2em;
-  color: #fff;
+  color: #e6e6e6!important;
   font-size: 0.8rem;
 }
 .tags a:hover {

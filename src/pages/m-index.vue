@@ -40,6 +40,7 @@
                 :showbtn='showbtn' 
                 :movement2='movement2' 
                 :showme='showme'
+                :quote='quote'
                 :isMobile='isMobile'
                 @offmask='moffmask()'
                 @changeShowme='mchangeShowme()'
@@ -56,7 +57,7 @@ export default {
             currentIndex: 0,
             articlesPerPage: 7,
             name: 'Caster',
-            updateDate: '2019-02-26',
+            updateDate: '2019-03-03',
             articles: [], //全部
             totalPages: 0,
             theArticles: [], //该页包含
@@ -65,6 +66,7 @@ export default {
             showbtn: false,
             movement1: '',
             movement2: -353,
+            quote: 'Valar Morghulis',
             isMobile: true,
             state: JSON.parse(localStorage.getItem('night')) //夜间模式
         }
@@ -88,6 +90,7 @@ export default {
         changeNight(){
             this.state = !this.state
             localStorage.setItem('night',this.state)
+            this.quote = this.state ? "night's watch" : 'Valar Morghulis'
         }
 
     },
@@ -124,7 +127,7 @@ export default {
             setTimeout(e=>{
                 this.showbtn = true;
             },1000)
-
+            this.quote = this.state ? "night's watch" : 'Valar Morghulis'
             
         })
 
@@ -230,7 +233,7 @@ a {
 }
 .tags a p {
     line-height: 2em;
-    color: rgb(255,255,255);
+    color: rgb(255,255,255)!important;
     font-size: .8rem;
 }
 .tags a:hover {
