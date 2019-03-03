@@ -1,20 +1,31 @@
 <!-- toledo.vue -->
 <template>
-    <transition name="slide">
-        <div class="toledo" v-show='show'>
-            <header>
-                <a href="javascript:void(0)" onclick="location.reload()"><p>{{ title }}</p></a>
-                <small class="time">--{{time}}发布:)</small>
-            </header>
-            <div v-html = 'raw' class="t-detail"></div>
-            <footer>
-                <router-link target="_blank" :to="{path:'toledo',query:{title: this.prev}}"><p v-if="this.prev">上一篇：{{ this.prev }}</p></router-link>
-                <router-link target="_blank" :to="{path:'toledo',query:{title: this.next}}"><p v-if="this.next">下一篇: {{ this.next }}</p></router-link>
-            </footer>
+    <div :class="{
+        'bg': 1,
+        'night': state,
+        'day': !state
+    }">
+        <transition name="slide">
+            <div class="toledo" v-show='show'>
+                <header>
+                    <a href="javascript:void(0)" onclick="location.reload()"><p>{{ title }}</p></a>
+                    <small class="time">--{{time}}发布:)</small>
+                    <night-mode
+                        :state='state'
+                        :isMobile='false'
+                        @changeNight='changeNight()'
+                    ></night-mode>
+                </header>
+                <div v-html = 'raw' class="t-detail"></div>
+                <footer>
+                    <router-link target="_blank" :to="{path:'toledo',query:{title: this.prev}}"><p v-if="this.prev">上一篇：{{ this.prev }}</p></router-link>
+                    <router-link target="_blank" :to="{path:'toledo',query:{title: this.next}}"><p v-if="this.next">下一篇: {{ this.next }}</p></router-link>
+                </footer>
 
-            <div id="container"></div>
-        </div>
-    </transition>
+                <div id="container"></div>
+            </div>
+        </transition>
+    </div>
 </template>
 
 <script>
@@ -43,6 +54,7 @@ function blogCSS(){
 }
 import 'gitment/style/default.css'
 import Gitment from 'gitment'
+import nightMode from '@/components/night-mode'
 export default {
     data (){
         return {
@@ -55,10 +67,17 @@ export default {
             prev: '',
             next: '',
             show: false,
+            state: JSON.parse(localStorage.getItem('night')), //夜间模式
         }
     },
     methods: {
-        
+        changeNight(){
+            this.state = !this.state
+            localStorage.setItem('night',this.state)
+        }
+    },
+    components: {
+        "night-mode": nightMode
     },
     mounted() {
         console.log("%c<font color='#f38181'>红</font>","color: #f38181");
@@ -168,40 +187,39 @@ export default {
 </script>
 
 <style>
-.m-toledo hr {
-    margin: 5vh 0;
+.bg.night {
+    --bg: #282c35;
+    --textNormal: hsla(0,0%,100%,0.88);
+    --hr: #5f5f5f;
+    --inlineCode-bg: #222;
+    --inlineCode-text: #e6e6e6;
+    --menu: url("../assets/menu2.png");
+    --tag: rgb(148, 148, 148);
+    --comment: #63e555;
+    --params: #92bcea;
 }
-.m-t-detail {
-    width: 90vw;
-    padding: 0 5vw;
+.bg.day {
+    --bg: #fff;
+    --textNormal: #222;
+    --hr: #eee;
+    --inlineCode-bg: #373c49;
+    --inlineCode-text: #e6e6e6;
+    --comment: #75715e;
+    --menu: url("../assets/menu.png");
+    --tag: rgb(148, 148, 148);
+    --params: #75715e;
+
 }
-.m-toledo header{
-    padding: 5vh 5vw;
-    width: 90vw;
+p {
+    color: var(--textNormal)!important;
 }
-.m-toledo .time {
-    display: inline-block;
-    position: absolute;
-    right: 5vw;
-    bottom: 0;
-    height: 20px;
-    font-size: 13px;
-    opacity: 1;
-}
-.m-toledo footer{
-    padding: 0 2vw;
-}
-.m-toledo footer a{
-    max-width: 50%;
-}
-.m-toledo footer p{
-    font-size: 12px;
-}
-.m-toledo header p {
-    font-size: 20px;
+.bg {
+    transition: all .3s;
+    background-color: var(--bg);
 }
 .hljs-params {
-    color: #75715e;
+    color: var(--params);
+    transition: all .3s;
 }
 header {
     border: none;
@@ -213,18 +231,22 @@ header p{
 h1 {
     font-size: 1.8rem;
     margin: 5% 0;
+    color: var(--textNormal);
 }
 h2 {
     font-size: 1.5rem;
     margin: 5% 0;
+    color: var(--textNormal);
 }
 h3 {
     font-size: 1.2rem;
     margin: 5% 0;
+    color: var(--textNormal);
 }
 h4 {
     font-size: 1rem;
     margin: 5% 0;
+    color: var(--textNormal);
 }
 h1:before,h2:before,h3:before {
     content: '# ';
@@ -250,20 +272,24 @@ hr {
     margin: 40px 0;
     border: none;
     height: 3px;
-    background-color: #ddd;
+    background-color: var(--hr);
     background-image: repeating-linear-gradient(-45deg, #fff, #fff 4px, transparent 4px, transparent 8px);
 }
 pre {
-    background-color: #f7f7f7;
+    background-color: var(--inlineCode-bg);
     margin: 3% 0;
     padding: 3%;
     overflow-x: auto;
+    transition: all .3s;
 }
 pre code {
     font-size: .8rem;
+    color: var(--inlineCode-text);
 }
 .hljs-comment {
     opacity: .6;
+    color: var(--comment);
+    transition: all .3s;
 }
 .hljs-name {
     color: #f92672;
@@ -307,6 +333,7 @@ a {
     opacity: 0;
     transition: all .3s;
     user-select: none;
+    color: var(--textNormal);
 }
 header:hover > small {
     opacity: .6;
@@ -327,30 +354,7 @@ header:hover > small {
     transition: all .2s;
     border-bottom: 1px solid rgba(200,200,200,0);
 }
-.tags {
-    user-select: none;
-    width: 97%;
-    font-size: .12px;
-    text-align: left;
-    margin-left: 3%;
-    margin-top: 5%;
-    margin-bottom: -5%;
-}
-.tags a {
-    display: inline-block;
-    user-select: none;
-    border-radius: 10px;
-    padding: 1% 3%;
-    margin: 0 .5%;
-    color: rgb(255,255,255);
-    background-color: rgb(148,148,148);
-    opacity: .4;
-    transition: all .3s;
-    cursor: pointer;
-}
-.tags a:hover {
-    opacity: .6;
-}
+
 footer {
     display: flex;
     justify-content: space-between;
@@ -358,7 +362,6 @@ footer {
     height: 10%;
     margin: 10% auto;
     bottom: 0;
-    background-color: white;
     border-top: 1px dotted #aaa;
     text-align: left;
 }
@@ -380,4 +383,39 @@ blockquote p {
     width: 600px;
     margin: 0 auto;
 }
+.gitment-footer-container {
+    margin-bottom: 0;
+    padding-bottom: 20px;
+    color: var(--textNormal);
+}
+.gitment-root-container {
+    margin: 0;
+}
+.gitment-header-container * {
+    color: #777;
+}
+
+.gitment-editor-tab.gitment-selected {
+    background-color: transparent;
+    color: var(--textNormal);
+}
+.gitment-editor-tab {
+    color: var(--textNormal)
+}
+.gitment-editor-login {
+    position: absolute;
+    right: 3px;
+    top: 0;
+    color: var(--textNormal);
+}
+
+.gitment-editor-body textarea {
+    background-color: var(--bg)
+}
+
+.gitment-comment-header {
+    background-color: var(--bg)
+
+}
+
 </style>

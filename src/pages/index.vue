@@ -1,10 +1,12 @@
 <!-- index.vue -->
 <template>
-  <div>
+    <div :class="{
+        'bg': 1,
+        'night': state,
+        'day': !state
+    }">
     <transition name="slide">
-      <div
-        class="index"
-        v-show="show"
+      <div class='index' v-show="show"
         :style="{
                 'transform': 'translateX('+movement1+'px)'
             }"
@@ -14,6 +16,11 @@
             <p>{{ name }}'s Blog</p>
           </a>
           <small class="update">--{{ updateDate }}更新:)</small>
+          <night-mode
+            :state='state'
+            :isMobile='false'
+            @changeNight='changeNight()'
+          ></night-mode>
         </header>
 
         <div class="articles">
@@ -45,6 +52,7 @@
         :showbtn='showbtn' 
         :movement2='movement2' 
         :showme='showme'
+        :quote='quote'
         :isMobile='isMobile'
         @showQuote='showQuote()'
         @offmask='offmask()'
@@ -55,6 +63,7 @@
 
 <script>
 import infoCard from '@/components/info-card'
+import nightMode from '@/components/night-mode'
 export default {
     data (){
         return {
@@ -70,11 +79,14 @@ export default {
             showbtn: false,
             movement1: '',
             movement2: -353,
-            isMobile: false
+            isMobile: false,
+            quote: 'Valar Morghulis',
+            state: JSON.parse(localStorage.getItem('night')) //夜间模式
         }
     },
     components: {
-        "info-card": infoCard
+        "info-card": infoCard,
+        "night-mode": nightMode
     },
     methods: {
         jump: function(idx){
@@ -91,7 +103,28 @@ export default {
             this.movement2 = -353;
         },
         showQuote(){
-            console.log('Valar Dohaeris')
+            if(this.state){
+console.log(`
+「  Night gathers, and now my watch begins. 
+    It shall not end until my death. 
+    I shall take no wife, 
+        hold no lands, 
+        father no children. 
+    I shall wear no crowns and win no glory. 
+    I shall live and die at my post. 
+    I am the sword in the darkness. 
+    I am the watcher on the walls. 
+    I am the fire that burns against the cold, 
+        the light that brings the dawn, 
+        the horn that wakes the sleepers, 
+        the shield that guards the realms of men. 
+    I pledge my life and honor to the Night's Watch, 
+        for this night and all the nights to come.   」
+    `
+)
+            }else{
+                console.log('Valar Dohaeris')
+            }
         },
         mchangeShowme(){
             this.showme = true;
@@ -100,6 +133,11 @@ export default {
         moffmask(){
             this.showme = false;
             this.movement2 = -100;
+        },
+        changeNight(){
+            this.state = !this.state
+            localStorage.setItem('night',this.state)
+            this.quote = this.state ? "night's watch" : 'Valar Morghulis'
         }
 
     },
@@ -136,9 +174,11 @@ export default {
             setTimeout(e=>{
                 this.showbtn = true;
             },1000)
-
             
         })
+        if(this.state){
+            this.quote = "night's watch"
+        }
 
         //出场动画
 
@@ -148,6 +188,28 @@ export default {
 </script>
 
 <style scoped>
+.bg.night {
+    --bg: #282c35;
+    --textNormal: hsla(0,0%,100%,0.88);
+    --menu: url("../assets/menu2.png");
+    --tag: rgb(148, 148, 148);
+}
+.bg.day {
+    --bg: #fff;
+    --textNormal: #222;
+    --menu: url("../assets/menu.png");
+    --tag: rgb(148, 148, 148);
+
+}
+.bg {
+    background-color: var(--bg);
+    transition: all .3s;
+    min-height: 100vh;
+}
+
+p {
+    color: var(--textNormal);
+}
 
 .index {
   transition: transform 0.5s;
@@ -183,6 +245,7 @@ a {
   opacity: 0;
   transition: all 0.3s;
   user-select: none;
+  color: var(--textNormal);
 }
 header:hover > small {
   opacity: 0.6;
@@ -241,14 +304,14 @@ header:hover > small {
   border-radius: 10px;
   padding: 0 3%;
   margin: 0 0.5%;
-  background-color: rgb(148, 148, 148);
+  background-color: var(--tag);
   opacity: 0.4;
   transition: all 0.3s;
   cursor: pointer;
 }
 .tags a p {
   line-height: 2em;
-  color: rgb(255, 255, 255);
+  color: #fff;
   font-size: 0.8rem;
 }
 .tags a:hover {
@@ -261,7 +324,6 @@ footer {
   margin: 0 auto;
   padding: 5% 8%;
   bottom: 0;
-  background-color: white;
   border-top: 1px dotted #aaa;
   text-align: left;
 }
@@ -274,6 +336,7 @@ footer {
   border-bottom: 2px solid rgba(200, 200, 200, 0);
   opacity: 0.8;
   transition: all 0.3s;
+  color: var(--textNormal);
 }
 .page:hover {
   border-bottom: 2px solid rgba(200, 200, 200, 0.8);

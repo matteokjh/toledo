@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import index from '@/components/index';
-import toledo from '@/components/toledo';
-import mDetail from '@/components/m-detail';
-import mIndex from '@/components/m-index';
+import index from '@/pages/index';
+import toledo from '@/pages/toledo';
+import mDetail from '@/pages/m-detail';
+import mIndex from '@/pages/m-index';
 
 
 Vue.use(Router);

@@ -1,10 +1,19 @@
 <template>
-  <div class="m-toledo" v-show="show">
+  <div :class="{
+        'm-toledo': 1,
+        'night': state,
+        'day': !state
+    }" v-show="show">
     <header>
       <a href="javascript:void(0)" onclick="location.reload()">
         <p>{{ title }}</p>
       </a>
       <small class="time">--{{time}}发布:)</small>
+      <night-mode
+        :state='state'
+        :isMobile='true'
+        @changeNight='changeNight()'
+      ></night-mode>
     </header>
     <div v-html="raw" class="m-t-detail"></div>
     <footer>
@@ -23,6 +32,7 @@
 <script>
 import "gitment/style/default.css";
 import Gitment from "gitment";
+import nightMode from '@/components/night-mode'
 export default {
   data() {
     return {
@@ -34,10 +44,19 @@ export default {
       indexList: [],
       prev: "",
       next: "",
-      show: false
+      show: false,
+      state: JSON.parse(localStorage.getItem('night')), //夜间模式
     };
   },
-  methods: {},
+  components: {
+      "night-mode": nightMode
+  },
+  methods: {
+    changeNight(){
+        this.state = !this.state
+        localStorage.setItem('night',this.state)
+    }
+  },
   mounted() {
     //临时放置博客内嵌函数
     // console.log(this.title)
@@ -145,6 +164,37 @@ export default {
 
 
 <style lang="css">
+.m-toledo.night {
+    --bg: #282c35;
+    --textNormal: hsla(0,0%,100%,0.88);
+    --hr: #5f5f5f;
+    --inlineCode-bg: #222;
+    --inlineCode-text: #e6e6e6;
+    --menu: url("../assets/menu2.png");
+    --tag: rgb(148, 148, 148);
+    --comment: #63e555;
+    --params: #92bcea;
+}
+.m-toledo.day {
+    --bg: #fff;
+    --textNormal: #222;
+    --hr: #eee;
+    --inlineCode-bg: #373c49;
+    --inlineCode-text: #e6e6e6;
+    --comment: #75715e;
+    --menu: url("../assets/menu.png");
+    --tag: rgb(148, 148, 148);
+    --params: #75715e;
+
+}
+.m-toledo {
+    transition: all .3s;
+    background-color: var(--bg);
+}
+p {
+    color: var(--textNormal)!important;
+    transition: all .3s;
+}
 .m-toledo hr {
   margin: 5vh 0;
 }
@@ -178,7 +228,8 @@ export default {
   font-size: 20px;
 }
 .hljs-params {
-  color: #75715e;
+    color: var(--params);
+    transition: all .3s;
 }
 header {
   border: none;
@@ -190,18 +241,22 @@ header p {
 h1 {
   font-size: 1.8rem;
   margin: 5% 0;
+  color: var(--textNormal);
 }
 h2 {
   font-size: 1.5rem;
   margin: 5% 0;
+  color: var(--textNormal);
 }
 h3 {
   font-size: 1.2rem;
   margin: 5% 0;
+  color: var(--textNormal);
 }
 h4 {
   font-size: 1rem;
   margin: 5% 0;
+  color: var(--textNormal);
 }
 h1:before,
 h2:before,
@@ -229,7 +284,8 @@ hr {
   margin: 40px 0;
   border: none;
   height: 3px;
-  background-color: #ddd;
+  background-color: var(--hr);
+  transition: all .3s;
   background-image: repeating-linear-gradient(
     -45deg,
     #fff,
@@ -239,16 +295,19 @@ hr {
   );
 }
 pre {
-  background-color: #f7f7f7;
-  margin: 3% 0;
-  padding: 3%;
-  overflow-x: auto;
+    background-color: var(--inlineCode-bg);
+    margin: 3% 0;
+    padding: 3%;
+    overflow-x: auto;
+    transition: all .3s;
 }
 pre code {
   font-size: 0.8rem;
+  color: var(--inlineCode-text);
 }
 .hljs-comment {
   opacity: 0.6;
+  color: var(--comment);
 }
 .hljs-name {
   color: #f92672;
@@ -293,6 +352,7 @@ a {
   opacity: 0;
   transition: all 0.3s;
   user-select: none;
+  color: var(--textNormal);
 }
 header:hover > small {
   opacity: 0.6;
@@ -319,7 +379,6 @@ footer {
   height: 10%;
   margin: 10% auto;
   bottom: 0;
-  background-color: white;
   border-top: 1px dotted #aaa;
   text-align: left;
 }
@@ -341,6 +400,9 @@ blockquote p {
   width: 90vw;
   height: 100vh;
   padding: 0 5vw;
+}
+.gitment-header-container * {
+    color: #777;
 }
 .gitment-root-container p {
   font-size: 0.8rem;
@@ -378,5 +440,30 @@ a.gitment-editor-footer-tip {
 }
 a.gitment-header-issue-link {
     line-height: 3vh;
+}
+.gitment-footer-container {
+    margin-bottom: 0;
+    padding-bottom: 20px;
+    color: var(--textNormal);
+}
+.gitment-editor-tab.gitment-selected {
+    background-color: transparent;
+    color: var(--textNormal);
+}
+.gitment-editor-tab {
+    color: var(--textNormal)
+}
+.gitment-editor-login {
+    position: absolute;
+    right: 3px;
+    top: 0;
+    color: var(--textNormal);
+}
+.gitment-editor-body textarea {
+    background-color: var(--bg)
+}
+.gitment-comment-header {
+    background-color: var(--bg)
+
 }
 </style>

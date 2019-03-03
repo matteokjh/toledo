@@ -1,6 +1,10 @@
 <template>
     <!-- mobile -->
-    <div class='m-index'>
+    <div :class="{
+        'm-index': 1,
+        'night': state,
+        'day': !state
+    }">
             <div class="m-index" :style="{
                 'height': showme ? '100vh' : 'auto',
                 'overflow-y': showme ? 'hidden' : 'auto'
@@ -8,6 +12,11 @@
                 <header>
                     <a href="./"><p>{{ name }}'s Blog</p></a>
                     <small class="update">--{{ updateDate }}更新:)</small>
+                    <night-mode
+                        :state='state'
+                        :isMobile='true'
+                        @changeNight='changeNight()'
+                    ></night-mode>
                 </header>
                 
                 <div class="articles">
@@ -40,6 +49,7 @@
 
 <script>
 import infoCard from '@/components/info-card'
+import nightMode from '@/components/night-mode'
 export default {
     data (){
         return {
@@ -55,11 +65,13 @@ export default {
             showbtn: false,
             movement1: '',
             movement2: -353,
-            isMobile: true
+            isMobile: true,
+            state: JSON.parse(localStorage.getItem('night')) //夜间模式
         }
     },
     components: {
-        "info-card": infoCard
+        "info-card": infoCard,
+        "night-mode": nightMode
     },
     methods: {
         jump: function(idx){
@@ -72,6 +84,10 @@ export default {
         moffmask(){
             this.showme = false;
             this.movement2 = -100;
+        },
+        changeNight(){
+            this.state = !this.state
+            localStorage.setItem('night',this.state)
         }
 
     },
@@ -119,12 +135,27 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.m-index.night {
+    --bg: #282c35;
+    --textNormal: hsla(0,0%,100%,0.88);
+    --menu: url("../assets/menu2.png");
+    --tag: rgb(148, 148, 148);
+}
+.m-index.day {
+    --bg: #fff;
+    --textNormal: #222;
+    --menu: url("../assets/menu.png");
+    --tag: rgb(148, 148, 148);
 
+}
 .m-index {
     width: 100vw;
     height: auto;
+    min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    background-color: var(--bg);
+    transition: all .3s;
 }
 header {
     position: relative;
@@ -136,7 +167,9 @@ header {
 header p {
     font-size: 25px;
 }
-
+p {
+    color: var(--textNormal);
+}
 
 a {
     text-decoration: none;
@@ -190,7 +223,7 @@ a {
     border-radius: 10px;
     padding: 0 3%;
     margin: 0 5vw;
-    background-color: rgb(148,148,148);
+    background-color: var(--tag);
     opacity: .4;
     transition: all .3s;
     cursor: pointer;
@@ -211,9 +244,9 @@ footer {
     display: block;
     user-select: none;
     height: 5vh;
-    padding: 2vh 5vw;
+    padding: 2vh 5vw 4vh 5vw;
     bottom: 0;
-    background-color: white;
+    background-color: transparent;
     border-top: 1px dotted #aaa;
     text-align: left;
 }
@@ -224,6 +257,7 @@ footer {
     cursor: pointer;
     border-bottom: 2px solid rgba(200,200,200,0);
     opacity: .8;
+    color: var(--textNormal);
 }
 </style>
 

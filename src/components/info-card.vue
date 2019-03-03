@@ -10,7 +10,7 @@
         }">
             <div class="avatar"></div>
             <div class="name">Mattéo Kwong</div>
-            <div class="quote"  @click="$emit('showQuote')">「 Valar Morghulis 」</div>
+            <div class="quote"  @click="$emit('showQuote')">「 {{ quote }} 」</div>
             <div class="location"><span></span><p>广东·广州</p></div>
             <div class="mail"><span></span><p>429797371@qq.com</p></div>
             <div class="mail"><span></span><p>matteokjh@hotmail.fr</p></div>
@@ -31,7 +31,7 @@
             <span class="back"  @click="$emit('offmask')"></span>
             <div class="avatar"></div>
             <div class="name">Mattéo Kwong</div>
-            <div class="quote">「 Valar Morghulis 」</div>
+            <div class="quote">「 {{ quote }} 」</div>
             <div class="location"><span></span><p>广东·广州</p></div>
             <div class="mail"><span></span><p>429797371@qq.com</p></div>
             <div class="mail"><span></span><p>matteokjh@hotmail.fr</p></div>
@@ -51,6 +51,7 @@ export default {
         "showQuote",
         "offmask",
         "changeShowme",
+        "quote",
         "isMobile"
     ],
     mounted(){
@@ -126,7 +127,7 @@ export default {
     right: 7vw;
     width: 15vw;
     height: 5vh;
-    background-image: url('../assets/menu.png');
+    background-image: var(--menu);
     background-repeat: no-repeat;
     background-size: 80%;
     background-position: center;
@@ -160,7 +161,7 @@ export default {
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: 5px;
-  background-image: url("../assets/menu.png");
+  background-image: var(--menu);
   background-repeat: no-repeat;
   background-size: 80%;
   background-position: center;
