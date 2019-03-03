@@ -1,9 +1,9 @@
-<!-- index.vue -->
 <template>
-    <div>
-        <transition name="slide">
-            <div class="index" v-show='show' :style="{
-                'transform': 'translateX('+movement1+'px)'
+    <!-- mobile -->
+    <div class='m-index'>
+            <div class="m-index" :style="{
+                'height': showme ? '100vh' : 'auto',
+                'overflow-y': showme ? 'hidden' : 'auto'
             }">
                 <header>
                     <a href="./"><p>{{ name }}'s Blog</p></a>
@@ -25,29 +25,21 @@
                     </div>
                 </footer>
             </div>
-        </transition>
-        <transition name='btn'>
-           <div class="showmebtn" v-show ='showbtn' @click='changeShowme()' :style="{
-                'right': movement2+410+'px'
-            }"></div>
-        </transition>
-        <div class="aboutme" :style="{
-            'right': movement2+'px'
-        }">
-            <div class="avatar"></div>
-            <div class="name">Mattéo Kwong</div>
-            <div class="quote" @click='showQuote()'>「 Valar Morghulis 」</div>
-            <div class="location"><span></span><p>广东·广州</p></div>
-            <div class="mail"><span></span><p>429797371@qq.com</p></div>
-            <div class="mail"><span></span><p>matteokjh@hotmail.fr</p></div>
-            <div class="github"><a href="https://matteokjh.github.io/" target='_blank'><span></span><p>旧博客：matteokjh.github.io</p></a></div>
-            <div class="github"><a href="https://github.com/matteokjh" target='_blank'><span></span><p>github.com/matteokjh</p></a></div>
-        </div>
-        <transition name='mask'>
-            <div class="mask" @click='offmask()' v-show='showme'></div>
-        </transition>
+            <div class="showmebtn" @click='mchangeShowme()'></div>
+            <div class="m-aboutme" :style="{
+                'right': movement2+'vw'
+            }">
+                <span class="back" @click='moffmask()'></span>
+                <div class="avatar"></div>
+                <div class="name">Mattéo Kwong</div>
+                <div class="quote" @click='showQuote()'>「 Valar Morghulis 」</div>
+                <div class="location"><span></span><p>广东·广州</p></div>
+                <div class="mail"><span></span><p>429797371@qq.com</p></div>
+                <div class="mail"><span></span><p>matteokjh@hotmail.fr</p></div>
+                <div class="github"><a href="https://matteokjh.github.io/" target='_blank'><span></span><p style='border: none;'>旧博客：</p><p>matteokjh.github.io</p></a></div>
+                <div class="github"><a href="https://github.com/matteokjh" target='_blank'><span></span><p>github.com/matteokjh</p></a></div>
+            </div>
     </div>
-
 </template>
 
 <script>
@@ -135,11 +127,43 @@ export default {
         //出场动画
 
     }
-
 }
 </script>
 
-<style scoped>
+<style lang="css" scoped>
+.back {
+    background-image: url('../assets/left-arrow.png');
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    float: left;
+    margin: 15px;
+    transform: rotate(180deg);
+}
+.m-index {
+    width: 100vw;
+    height: auto;
+    position: relative;
+    overflow-x: hidden;
+}
+header {
+    position: relative;
+    padding: 5vh 10vw;
+    text-align: left;    
+    width: 80vw;
+    border-bottom: 1px dotted #aaa;
+}
+header p {
+    font-size: 25px;
+}
+.github p {
+    border-bottom:1px solid #e6e6e6;
+}
+.github:last-child {
+    margin-bottom: 10vh;
+}
 .avatar {
     background-image: url('../assets/avatar.jpg');
     width: 120px;
@@ -172,7 +196,7 @@ export default {
     margin: 15px 30px;
     text-align: left;
 }
-.location span, .github span, .mail span {
+ .location span, .github span, .mail span {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -182,56 +206,7 @@ export default {
     vertical-align: middle;
     margin-right: 3px;
 }
-.location span {
-    background-image: url('../assets/icon-location.png');
-}
-.github span {
-    background-image: url('../assets/github.png');
-}
-.mail span  {
-    background-image: url('../assets/mail.png');
-}
-.location p, .mail p, .github p {
-    display: inline-block;
-    height: 20px;
-    vertical-align: middle;
-}
-.github a {
-    display: block;
-}
-.github p {
-    transition: all .3s;
-    border-bottom: 1px solid transparent;
-}
-.github p:hover {
-    border-bottom: 1px solid #e6e6e6;
-}
-.index {
-    transition: transform .5s;
-    transition-delay: .2s;
-    width: 600px;
-    margin: 0 auto;
-}
-header {
-    border-bottom: 1px dotted #aaa;
-}
-.slide-enter {
-    opacity: 0;
-    transform: translate(-10px, -50px);
-}
-.slide-enter-active {
-    transition: all .6s;
-}
-.slide-enter-to {
-    opacity: 1;
-    transform: translate(0);
-}
-.btn-enter {
-    opacity: 0;
-}
-.btn-enter-to {
-    opacity: 1;
-}
+
 a {
     text-decoration: none;
     color: inherit;
@@ -243,68 +218,47 @@ a {
     bottom: 0;
     height: 20px;
     font-size: 13px;
-    opacity: 0;
-    transition: all .3s;
-    user-select: none;
-}
-header:hover > small {
-    opacity: .6;
+    color: #aaa;
 }
 .articles {
     width: 100%;
 }
 .article {
     position: relative;
-    padding: 5% 25% 5% 5%;
+    padding: 5vw 0vh;
     border-bottom: 1px solid #eee;
+    text-align: left;
 }
 .article:last-child {
     border-bottom: none;
 }
-.title {
-    display: block;
-    margin-left: 5%;
-    text-align: left;
-    cursor: pointer;
-
-}
-.title:hover > p {
-    border-bottom: 1px solid rgba(200,200,200,.8);
-}
 .title p {
     display: inline;
-    font-size: 1.2rem;
-    transition: all .2s;
-    border-bottom: 1px solid rgba(200,200,200,0);
+    font-size: 16px;
+    margin-left: 5vw;
 }
 .time {
-    user-select: none;
     font-size: .5rem;
     position: absolute;
     right: 3%;
     bottom: 5%;
     color: #aaa;
-    opacity: 0;
-    transition: all .3s;
-}
-.article:hover > .time {
     opacity: 1;
 }
 .tags {
-    user-select: none;
     width: 97%;
     font-size: .12px;
     text-align: left;
-    margin-left: 4%;
-    margin-top: 5%;
-    margin-bottom: -5%;
+    margin-left: 3vw;
+    margin-top: 3vh;
+    margin-bottom: -1vh;
 }
-.tags a {
+.m-index .tags a {
     display: inline-block;
     user-select: none;
     border-radius: 10px;
     padding: 0 3%;
-    margin: 0 .5%;
+    margin: 0 5vw;
     background-color: rgb(148,148,148);
     opacity: .4;
     transition: all .3s;
@@ -318,12 +272,42 @@ header:hover > small {
 .tags a:hover {
     opacity: .6;
 }
+.activated {
+    color: #aaa;
+}
+.showmebtn {    
+    position: absolute;
+    top: 5vh;
+    right: 7vw;
+    width: 15vw;
+    height: 5vh;
+    background-image: url('../assets/menu.png');
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+}
+.m-aboutme {
+    position: absolute;
+    z-index: 999;
+    right: -100vw;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: #2d2d2d;
+    transition: all .5s;
+    overflow: scroll;
+}
+.m-aboutme p{
+    color: #e6e6e6;
+    font-size: 15px;
+    line-height: initial;
+    display: inline-block;
+}
 footer {
     display: block;
     user-select: none;
-    height: 10%;
-    margin: 0 auto;
-    padding: 5% 8%;
+    height: 5vh;
+    padding: 2vh 5vw;
     bottom: 0;
     background-color: white;
     border-top: 1px dotted #aaa;
@@ -332,71 +316,10 @@ footer {
 .page {
     display: inline-block;
     font-size: 1.5rem;
-    margin: 0 1%;
-    padding: 0 0%;
+    margin: 0 2vw;
     cursor: pointer;
     border-bottom: 2px solid rgba(200,200,200,0);
     opacity: .8;
-    transition: all .3s;
 }
-.page:hover {
-    border-bottom: 2px solid rgba(200,200,200,.8);
-}
-.activated {
-    color: #aaa;
-}
-.showmebtn {
-    position: fixed;
-    top: 20px;;
-    right: 60px;
-    width: 60px;
-    height: 40px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    background-image: url('../assets/menu.png');
-    background-repeat: no-repeat;
-    background-size: 80%;
-    background-position: center;
-    transition: all .5s;
-}
-.showmebtn:hover {
-    border: 1px solid #bbb;
-    box-shadow: 0 0 1px 1px #eee;
-}
-.aboutme {
-    position: fixed;
-    z-index: 999;
-    right: -353px;
-    top: 0;
-    width: 350px;
-    height: 100vh;
-    background-color: #2d2d2d;
-    transition: all .5s;
-    box-shadow: 0px 0 1px 1px #2d2d2d;
-}
-.aboutme p{
-    color: #e6e6e6;
-    font-size: 15px;
-    line-height: initial;
-}
-.mask {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-    background-color: rgba(103, 97, 97, 0.4);
-    transition: all .5s;
-}
-.mask-enter {
-    opacity: 0;
-}
-.mask-enter-to {
-    opacity: 1;
-}
-.mask-leave-to {
-    opacity: 0;
-}
-
 </style>
+
