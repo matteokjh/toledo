@@ -346,4 +346,8 @@ footer {
   color: #aaa;
 }
 
+.gitment-header-container, .gitment-root-container {
+    margin: 0;
+}
+
 </style>
