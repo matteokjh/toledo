@@ -418,4 +418,7 @@ blockquote p {
 
 }
 
+li {
+    color: var(--textNormal);
+}
 </style>

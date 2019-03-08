@@ -466,4 +466,7 @@ a.gitment-header-issue-link {
     background-color: var(--bg)
 
 }
+li {
+    color: var(--textNormal);
+}
 </style>
