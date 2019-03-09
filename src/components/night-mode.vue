@@ -1,6 +1,6 @@
 <template>
     <div :class="{
-        'wrapper': 1,
+        'n-wrapper': 1,
         'mobile': isMobile,
         'notMobile': !isMobile
     }">
