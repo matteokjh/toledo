@@ -216,6 +216,7 @@ p {
 .bg {
     transition: all .3s;
     background-color: var(--bg);
+    min-height: 100vh;
 }
 .hljs-params {
     color: var(--params);
@@ -416,6 +417,9 @@ blockquote p {
 .gitment-comment-header {
     background-color: var(--bg)
 
+}
+.gitment-header-container, .gitment-root-container {
+    margin: 0!important;
 }
 
 li {
