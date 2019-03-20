@@ -469,4 +469,7 @@ a.gitment-header-issue-link {
 li {
     color: var(--textNormal);
 }
+.gitment-container * {
+    color: var(--textNormal);
+}
 </style>

@@ -70,7 +70,7 @@ export default {
             currentIndex: 0,
             articlesPerPage: 7,
             name: 'Caster',
-            updateDate: '2019-03-17',
+            updateDate: '2019-03-21',
             articles: [], //全部
             totalPages: 0,
             theArticles: [], //该页包含
