@@ -197,8 +197,6 @@ export default {
     --tag: rgb(148, 148, 148);
     --comment: #63e555;
     --params: #92bcea;
-    --scroll1: #fff;
-    --scroll2: #cdcdcd;
 }
 .bg.day {
     --bg: #fff;
@@ -210,28 +208,6 @@ export default {
     --menu: url("../assets/menu.png");
     --tag: rgb(148, 148, 148);
     --params: #75715e;
-    --scroll1: #eee;
-    --scroll2: #ddd;
-
-}
-
-
-::-webkit-scrollbar {
-    /* 高宽对应横竖滚动条 */
-    width: 6px;
-    height: 6px;
-}
-::-webkit-scrollbar-track  
-{  
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
-    border-radius: 10px;  /*滚动条的背景区域的圆角*/
-    background-color: var(--scroll);/*滚动条的背景颜色*/  
-}  
-::-webkit-scrollbar-thumb  
-{  
-    border-radius: 10px;  /*滚动条的圆角*/
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
-    background-color: var(--scroll2);  /*滚动条的背景颜色*/
 }
 
 p {

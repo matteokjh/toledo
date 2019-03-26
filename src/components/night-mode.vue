@@ -5,7 +5,7 @@
         'notMobile': !isMobile
     }">
         <div class="night-watch" @click="$emit('changeNight')">
-            <div class="bg" :style="{
+            <div class="bg1" :style="{
                 'transform': 'translateX('+ (+state)*50+'%)'
             }"></div>
         </div>
@@ -46,7 +46,7 @@ export default {
     overflow: hidden;
     
 }
-.mobile .bg {
+.mobile .bg1 {
     width: 40px;
     height: 28px;
     border-radius: 20px;
@@ -82,7 +82,7 @@ export default {
     border: 1px solid #eee;
     overflow: hidden;
 }
-.notMobile .bg {
+.notMobile .bg1 {
     width: 42px;
     height: 30px;
     border-radius: 20px;
