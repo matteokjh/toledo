@@ -191,10 +191,6 @@ export default {
     transition: all .3s;
     background-color: var(--bg);
 }
-p {
-    color: var(--textNormal)!important;
-    transition: all .3s;
-}
 .m-toledo hr {
   margin: 5vh 0;
 }
@@ -230,171 +226,6 @@ p {
 .hljs-params {
     color: var(--params);
     transition: all .3s;
-}
-header {
-  border: none;
-}
-
-header p {
-  font-size: 2rem;
-}
-h1 {
-  font-size: 1.8rem;
-  margin: 5% 0;
-  color: var(--textNormal);
-}
-h2 {
-  font-size: 1.5rem;
-  margin: 5% 0;
-  color: var(--textNormal);
-}
-h3 {
-  font-size: 1.2rem;
-  margin: 5% 0;
-  color: var(--textNormal);
-}
-h4 {
-  font-size: 1rem;
-  margin: 5% 0;
-  color: var(--textNormal);
-}
-h1:before,
-h2:before,
-h3:before {
-  content: "# ";
-}
-p {
-  line-height: 2em;
-  color: #555;
-  font-size: 0.8rem;
-}
-div {
-  text-align: left;
-}
-blockquote {
-  border-left: 4px solid #ddd;
-  color: #666;
-  padding-left: 15px;
-  margin: 5% 0;
-}
-blockquote p {
-  font-size: 0.9rem;
-}
-hr {
-  margin: 40px 0;
-  border: none;
-  height: 3px;
-  background-color: var(--hr);
-  transition: all .3s;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    #fff,
-    #fff 4px,
-    transparent 4px,
-    transparent 8px
-  );
-}
-pre {
-    background-color: var(--inlineCode-bg);
-    margin: 3% 0;
-    padding: 3%;
-    overflow-x: auto;
-    transition: all .3s;
-}
-pre code {
-  font-size: 0.8rem;
-  color: var(--inlineCode-text);
-}
-.hljs-comment {
-  opacity: 0.6;
-  color: var(--comment);
-}
-.hljs-name {
-  color: #f92672;
-}
-.hljs-tag {
-  color: #75715e;
-}
-.hljs-string {
-  color: rgb(249, 145, 87);
-}
-.hljs-built_in {
-  color: rgb(255, 204, 102);
-}
-.slide-enter {
-  opacity: 0;
-  transform: translate(-10px, -50px);
-}
-.slide-enter-active {
-  transition: all 0.6s;
-}
-.slide-enter-to {
-  opacity: 1;
-  transform: translate(0);
-}
-header a,
-a.router-link-active {
-  text-decoration: none;
-  color: inherit;
-}
-a {
-  display: block;
-  text-decoration: underline;
-  color: cornflowerblue;
-}
-.time {
-  display: inline-block;
-  position: absolute;
-  right: 1%;
-  bottom: 0;
-  height: 20px;
-  font-size: 13px;
-  opacity: 0;
-  transition: all 0.3s;
-  user-select: none;
-  color: var(--textNormal);
-}
-header:hover > small {
-  opacity: 0.6;
-}
-.title {
-  display: block;
-  margin-left: 5%;
-  text-align: left;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-.title:hover > p {
-  border-bottom: 1px solid rgba(200, 200, 200, 0.8);
-}
-.title p {
-  display: inline;
-  transition: all 0.2s;
-  border-bottom: 1px solid rgba(200, 200, 200, 0);
-}
-footer {
-  display: flex;
-  justify-content: space-between;
-  user-select: none;
-  height: 10%;
-  margin: 10% auto;
-  bottom: 0;
-  border-top: 1px dotted #aaa;
-  text-align: left;
-}
-footer p {
-  display: inline;
-  opacity: 0.6;
-  transition: all 0.5s ease;
-}
-footer p:hover {
-  opacity: 1;
-}
-img {
-  max-width: 100%;
-}
-blockquote p {
-  white-space: pre-wrap;
 }
 #m-container {
   width: 90vw;
@@ -465,9 +296,6 @@ a.gitment-header-issue-link {
 .gitment-comment-header {
     background-color: var(--bg)
 
-}
-li {
-    color: var(--textNormal);
 }
 .gitment-container * {
     color: var(--textNormal);

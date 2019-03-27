@@ -23,7 +23,10 @@ export default {
 * {
     margin: 0;
     padding: 0;
-    font-family: consolas;
+    font-family: consolas, sans-serif;
+}
+p {
+    font-size: 14px;
 }
 body {
     height: 100%;

@@ -216,6 +216,14 @@ p {
 }
 li {
     transition: all .3s;
+    color: var(--textNormal);
+    font-size: .8rem;
+    line-height: 2rem;
+    transform: translateX(5%);
+}
+li > ul {
+    width: 100%;
+    padding-left: 20px;
 }
 .bg {
     transition: all .3s;
@@ -253,11 +261,16 @@ h4 {
     margin: 5% 0;
     color: var(--textNormal);
 }
+h5 {
+    font-size: .8rem;
+    margin: 5% 0;
+    color: var(--textNormal);
+}
 h1:before,h2:before,h3:before {
     content: '# ';
 }
 p {
-    line-height: 2em;
+    line-height: 2rem;
     color: #555;
     font-size: .8rem;
 }
@@ -424,10 +437,6 @@ blockquote p {
 }
 .gitment-header-container, .gitment-root-container {
     margin: 0!important;
-}
-
-li {
-    color: var(--textNormal);
 }
 
 .gitment-container * {
