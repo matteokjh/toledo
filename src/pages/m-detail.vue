@@ -167,7 +167,7 @@ export default {
 .m-toledo.night {
     --bg: #282c35;
     --textNormal: hsla(0,0%,100%,0.88);
-    --hr: #5f5f5f;
+    --hr: #282c35;
     --inlineCode-bg: #222;
     --inlineCode-text: #e6e6e6;
     --menu: url("../assets/menu2.png");

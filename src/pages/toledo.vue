@@ -1,6 +1,7 @@
 <!-- toledo.vue -->
 <template>
-    <div :class="{
+    <loader v-if='!renderDone'>213</loader>
+    <div v-else-if='renderDone' :class="{
         'bg': 1,
         'night': state,
         'day': !state
@@ -55,12 +56,14 @@ function blogCSS(){
 import 'gitment/style/default.css'
 import Gitment from 'gitment'
 import nightMode from '@/components/night-mode'
+import loader from '@/components/loader'
 export default {
     data (){
         return {
             title: this.$route.query.title,
             time: '',
             tags: [],
+            ttt: 0,
             categories: [],
             raw: '',
             indexList: [],
@@ -68,16 +71,59 @@ export default {
             next: '',
             show: false,
             state: JSON.parse(localStorage.getItem('night')), //夜间模式
+            renderDone: false, // 控制loader
         }
     },
     methods: {
         changeNight(){
             this.state = !this.state
             localStorage.setItem('night',this.state)
+        },
+        renderGitment(){
+                //gitment init
+                const myTheme = {
+                    render(state, instance) {
+                        const container = document.createElement('div')
+                        container.lang = "en-US"
+                        container.className = 'gitment-container gitment-root-container'
+                        
+                        // your custom component
+                        container.appendChild(instance.renderSomething(state, instance))
+                        
+                        container.appendChild(instance.renderHeader(state, instance))
+                        container.appendChild(instance.renderEditor(state, instance))
+                        container.appendChild(instance.renderComments(state, instance))
+                        container.appendChild(instance.renderFooter(state, instance))
+                        return container
+                    },
+                    renderSomething(state, instance) {
+                        const container = document.createElement('div')
+                        container.lang = "en-US"
+                        if (state.user.login) {
+                            container.innerText = `Hello, ${state.user.login}`
+                        }
+                        return container
+                    }
+                }
+                setTimeout(function(){
+                    const gitment = new Gitment({
+                        id: this.ttt, // 可选，默认是location.href，用来区分不同的博客
+                        owner: 'matteokjh',//GitHub用户名/ID
+                        repo: 'gitmentRepo',//存放评论的github仓库名
+                        oauth: {
+                            client_id: '90a192b7d9a6d0683485',
+                            client_secret: 'b542c7239e8ab00298e229608e325064b4e9e815',
+                            // redirect_uri: 'http://108.61.183.77',
+                        },
+                        theme: myTheme
+                    })
+                    gitment.render('container')
+                },300)
         }
     },
     components: {
-        "night-mode": nightMode
+        "night-mode": nightMode,
+        "loader": loader
     },
     mounted() {
         console.log("%c<font color='#f38181'>红</font>","color: #f38181");
@@ -94,9 +140,7 @@ export default {
         }
 
         this.show = true;
-        
-
-        var ttt = 0;
+    
         // let origin = location.origin.split(':').splice(0,2).join(":");
         // origin = origin.replace('https','http');
 
@@ -110,11 +154,13 @@ export default {
             document.title = data.title;
             this.title = data.title;
             this.time = data.time;
-            ttt = data.time + data.excTime;
+            this.ttt = data.time + data.excTime;
             // console.log(ttt)
             this.tags = data.tags;
             this.categories = data.categories;
             this.raw = data.detail;
+            this.renderDone = true;
+            this.renderGitment();
         }).then( f=>{ //给markdown的链接加上_blank
             var links = document.links;
             for (var i = 0, linksLength = links.length; i < linksLength; i++) {
@@ -140,48 +186,6 @@ export default {
             })
         });
 
-
-        //gitment init
-        const myTheme = {
-            render(state, instance) {
-                const container = document.createElement('div')
-                container.lang = "en-US"
-                container.className = 'gitment-container gitment-root-container'
-                
-                // your custom component
-                container.appendChild(instance.renderSomething(state, instance))
-                
-                container.appendChild(instance.renderHeader(state, instance))
-                container.appendChild(instance.renderEditor(state, instance))
-                container.appendChild(instance.renderComments(state, instance))
-                container.appendChild(instance.renderFooter(state, instance))
-                return container
-            },
-            renderSomething(state, instance) {
-                const container = document.createElement('div')
-                container.lang = "en-US"
-                if (state.user.login) {
-                    container.innerText = `Hello, ${state.user.login}`
-                }
-                return container
-            }
-        }    
-        setTimeout(function(){
-            // console.log(ttt)
-            const gitment = new Gitment({
-                id: ttt, // 可选，默认是location.href，用来区分不同的博客
-                owner: 'matteokjh',//GitHub用户名/ID
-                repo: 'gitmentRepo',//存放评论的github仓库名
-                oauth: {
-                    client_id: '90a192b7d9a6d0683485',
-                    client_secret: 'b542c7239e8ab00298e229608e325064b4e9e815',
-                    // redirect_uri: 'http://108.61.183.77',
-                },
-                theme: myTheme
-            })
-            gitment.render('container') 
-        },1000)
-        
     }
 }
 </script>
@@ -190,7 +194,7 @@ export default {
 .bg.night {
     --bg: #282c35;
     --textNormal: hsla(0,0%,100%,0.88);
-    --hr: #5f5f5f;
+    --hr: #282c35;
     --inlineCode-bg: #222;
     --inlineCode-text: #e6e6e6;
     --menu: url("../assets/menu2.png");
