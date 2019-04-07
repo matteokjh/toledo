@@ -4,6 +4,7 @@ var URL = require("url");
 var getBlogs = require('./blog');
 var User = require('./user');
 var hljs = require('highlight.js');
+var fs2 = require('fs');
 var md = require('markdown-it')({
     highlight: function(str, lang) {
         if(lang && hljs.getLanguage(lang)){
@@ -85,10 +86,15 @@ router.get('/getblogs', (req,res) => {
                 else return 0;
             }
             infoList.sort(sorter)
-            let response = {
-                status: 1, data: infoList
+            // console.log(fs2.statSync(`./${COMPONENT}/`))
+            // let updateTime = fs2.statSync(`./${COMPONENT}/`).mtimeMs.toString();
+            let updateTime = fs2.statSync(`./${COMPONENT}/`).mtime.toLocaleDateString().replace(/-(\d)(?!\d)/g,'-0$1');
+            
+            let data = {
+                infoList,
+                updateTime
             }
-            res.json(response);
+            res.json(data);
         });
     }
 

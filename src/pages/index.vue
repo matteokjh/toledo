@@ -148,8 +148,12 @@ console.log(`
         let origin = 'https://api.sulpures.com/'
         this.$http.get(origin + 'users/getblogs')
         .then( response => {
-            this.articles = response.data.data;
-            // console.log(this.articles)
+            let updateTime = new Date(response.data.updateTime).toLocaleDateString();
+            updateTime = updateTime.replace(/\//g,'-');
+            updateTime = updateTime.replace(/-(\d)(?!\d)/g,'-0$1');
+            this.updateDate = updateTime;
+            // console.log(updateTime)
+            this.articles = response.data.infoList;
             let total = this.articles.length;
             this.totalPages = Math.ceil(total/this.articlesPerPage);
             var pageArticles = [];
