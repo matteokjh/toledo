@@ -11,8 +11,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const PrerenderSPAPlugin = require('prerender-spa-plugin')
-const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
+// const PrerenderSPAPlugin = require('prerender-spa-plugin')
+// const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 
 const env = require('../config/prod.env')
 
@@ -118,17 +118,17 @@ const webpackConfig = merge(baseWebpackConfig, {
                 ignore: ['.*']
             }
         ]),
-        new PrerenderSPAPlugin({
-            staticDir: path.join(__dirname,'../dist'),
-            routes: ['/'],
-            renderer: new Renderer({
-                inject: {
-                    foo: 'bar'
-                },
-                headless: false,
-                renderAfterDocumentEvent: 'render-event'
-            })
-        })
+        // new PrerenderSPAPlugin({
+        //     staticDir: path.join(__dirname,'../dist'),
+        //     routes: ['/'],
+        //     renderer: new Renderer({
+        //         inject: {
+        //             foo: 'bar'
+        //         },
+        //         headless: false,
+        //         renderAfterDocumentEvent: 'render-event'
+        //     })
+        // })
     ]
 })
 
