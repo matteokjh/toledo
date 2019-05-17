@@ -6,7 +6,13 @@ import router from './router'
 import axios from 'axios'
 
 Vue.prototype.$http = axios
-
+if (process.env.NODE_ENV == 'development') {
+    axios.defaults.baseURL = '/api';
+} else if (process.env.NODE_ENV == 'debug') {
+    axios.defaults.baseURL = '';
+} else if (process.env.NODE_ENV == 'production') {
+    axios.defaults.baseURL = 'https://api.sulpures.com/';
+}
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -72,9 +72,9 @@ export default {
     // let origin = location.origin.split(':').splice(0,2).join(":");
     // origin = origin.replace('https','http');
 
-    let origin = "https://api.sulpures.com/";
+    // let origin = "https://api.sulpures.com/";
     this.$http
-      .get(origin + "users/getdetails", {
+      .get("/users/getdetails", {
         params: {
           title: this.title
         }
@@ -101,7 +101,7 @@ export default {
         // console.log(links)
       });
     this.$http
-      .get(origin + "users/getblogs", {
+      .get("/users/getblogs", {
         params: {
           title: this.title
         }
