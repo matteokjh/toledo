@@ -1,0 +1,32 @@
+image: node:latest
+#services:
+#  - postgres
+
+before_script:
+  - npm install
+
+#after_script:
+#  - rm secrets
+
+stages:
+  - build
+  - deploy
+
+job1:
+  stage: build
+  script:
+    - npm run build
+    - echo 123 >> /1.txt
+  only:
+    - master
+  tags:
+    - my-tag
+
+job1:
+  stage: deploy
+  script:
+    - echo 1456 >> /2.txt
+  only:
+    - master
+  tags:
+    - my-tag
