@@ -30,6 +30,9 @@ job1:
 
 job2:
   stage: deploy
+  before_script: 
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
   script:
     - ls
     - cd /home
