@@ -2,12 +2,6 @@ image: node:latest
 #services:
 #  - postgres
 
-before_script:
-  - node -v
-  - npm config set registry https://registry.npm.taobao.org
-  - npm config ls -l
-  - npm install --timing
-
 #after_script:
 #  - rm secrets
 cache:
@@ -21,6 +15,11 @@ stages:
 
 job1:
   stage: build
+  before_script:
+  - node -v
+  - npm config set registry https://registry.npm.taobao.org
+  - npm config ls -l
+  - npm install --timing
   script:
     - pwd
     - npm run build
@@ -35,7 +34,7 @@ job2:
     - ls
     - cd /home
     - ls
-    - rsync -e "ssh -i /usr/rsync_id" ./dist/* root@167.179.96.11:/home/www/sulpures.com
+    - rsync ssh . ./dist/* root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
   tags:
