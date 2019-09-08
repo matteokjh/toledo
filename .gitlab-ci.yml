@@ -3,7 +3,7 @@ image: node:latest
 #  - postgres
 
 before_script:
-  - npm install
+  - npm install --timing
 
 #after_script:
 #  - rm secrets
@@ -16,7 +16,7 @@ job1:
   stage: build
   script:
     - npm run build
-    - echo 123 >> /1.txt
+    - echo 123 >> /kjh/1.txt
   only:
     - master
   tags:
@@ -25,7 +25,7 @@ job1:
 job2:
   stage: deploy
   script:
-    - echo 1456 >> /2.txt
+    - echo 1456 >> /kjh/2.txt
   only:
     - master
   tags:
