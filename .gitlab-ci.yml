@@ -20,7 +20,7 @@ job1:
   only:
     - master
   tags:
-    - my-tag
+    - docker
 
 job2:
   stage: deploy
@@ -29,4 +29,4 @@ job2:
   only:
     - master
   tags:
-    - my-tag
+    - docker
