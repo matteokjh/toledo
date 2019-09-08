@@ -23,12 +23,7 @@ job1:
   stage: build
   script:
     - pwd
-    - cd /
-    - ls
     - npm run build
-    - echo 123 >> 1.txt
-    # - ls
-    - mv 1.txt /kjh
   only:
     - master
   tags:
@@ -37,8 +32,8 @@ job1:
 job2:
   stage: deploy
   script:
-    - echo 1456 >> 2.txt
-    - mv 2.txt /kjh
+    - ls
+    - mv ./dist/* /home/www/sulpures.com
   only:
     - master
   tags:
