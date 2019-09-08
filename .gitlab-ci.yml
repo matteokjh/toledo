@@ -24,6 +24,7 @@ job1:
   stage: build
   script:
     - pwd
+    - ls
     - npm run build
     - echo 123 >> 1.txt
     - mv 1.txt /kjh
