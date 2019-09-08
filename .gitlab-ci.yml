@@ -33,7 +33,7 @@ job2:
   stage: deploy
   script:
     - ls
-    - sudo mv ./dist/* /home/www/sulpures.com
+    - rsync ./dist/* root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
   tags:
