@@ -33,6 +33,8 @@ job2:
   stage: deploy
   script:
     - ls
+    - cd /home
+    - ls
     - rsync -e "ssh -i /usr/rsync_id" ./dist/* root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
