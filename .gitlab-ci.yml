@@ -35,7 +35,9 @@ job2:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ls
-    - rsync -avr -e "ssh -i ~/rsync_id.pub" ./dist/* root@167.179.96.11:/home/www/sulpures.com
+    - echo 123 >> 1.txt
+    # - rsync -avr -e "ssh -i ~/rsync_id.pub" ./dist/* root@167.179.96.11:/home/www/sulpures.com
+    - rsync -avr -e "ssh -i ~/rsync_id.pub" ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
   tags:
