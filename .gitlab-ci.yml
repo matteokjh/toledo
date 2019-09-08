@@ -24,10 +24,12 @@ job1:
   stage: build
   script:
     - pwd
+    - cd /
     - ls
-    - npm run build
-    - echo 123 >> 1.txt
-    - mv 1.txt /kjh
+    # - npm run build
+    # - echo 123 >> 1.txt
+    # - ls
+    # - mv 1.txt /kjh
   only:
     - master
   tags:
