@@ -1,4 +1,4 @@
-image: node:latest
+image: matteokjh/node-rsync:1.0
 #services:
 #  - postgres
 
@@ -10,11 +10,10 @@ cache:
   - node_modules/
 
 stages:
-  - build
-  - deploy
+  - build & deploy
 
 job1:
-  stage: build
+  stage: build & deploy
   before_script:
   - node -v
   - npm config set registry https://registry.npm.taobao.org
@@ -22,22 +21,12 @@ job1:
   - npm install --timing
   script:
     - npm run build
-  only:
-    - master
-  tags:
-    - docker
-
-job2:
-  stage: deploy
-  before_script: 
     - pwd
     - echo "${SSH_PRIVATE_KEY}" > id_rsa
     - chmod 700 id_rsa
     - ls
     - mkdir "${HOME}/.ssh"
     - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
-    # - echo 123 >> 1.txt
-  script:
     - rsync -arvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
