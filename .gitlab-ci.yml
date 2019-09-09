@@ -1,4 +1,4 @@
-image: matteokjh/node-rsync:1.0
+image: matteokjh/node-rsync-openssh:latest
 #services:
 #  - postgres
 
