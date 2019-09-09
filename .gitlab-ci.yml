@@ -35,7 +35,7 @@ job1:
     - echo 123 >> 1.txt
     - ls
     - cd ~
-    - ls
+    - ls -a
 
   only:
     - master
