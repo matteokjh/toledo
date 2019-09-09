@@ -15,24 +15,24 @@ stages:
 job1:
   stage: build & deploy
   before_script:
-  # - node -v
+  - node -v
   # - npm config set registry https://registry.npm.taobao.org
   # - npm config ls -l
   # - npm install --timing
-  - eval $(ssh-agent -s)
-  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  # - eval $(ssh-agent -s)
+  # - ssh-add <(echo "$SSH_PRIVATE_KEY")
   - mkdir -p ~/.ssh
+  - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+  - chmod 700 ~/.ssh/id_rsa
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - rsync -arvz ./1.txt root@167.179.96.11:/home/www/sulpures.com
   script:
     # - npm run build
     # - pwd
-    - echo "${SSH_PRIVATE_KEY}" > id_rsa
-    - chmod 700 id_rsa
     # - ls
     # - mkdir "${HOME}/.ssh"
     # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
-    # - rsync -arvz ./1.txt root@167.179.96.11:/home/www/sulpures.com
-    - sudo rsync -arvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
+    # - sudo rsync -arvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
   tags:
