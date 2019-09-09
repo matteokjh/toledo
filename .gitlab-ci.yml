@@ -30,14 +30,12 @@ job1:
 job2:
   stage: deploy
   # before_script: 
-    # - echo "${SSH_PRIVATE_KEY}" > id_rsa
+    - echo "${SSH_PRIVATE_KEY}" > id_rsa
     # - chmod +700 id_rsa
     # - mkdir "${HOME}/.ssh"
     # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
     # - echo 123 >> 1.txt
   script:
-    - cd /
-    - pwd
     - ls
     # - rsync -ahrvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
