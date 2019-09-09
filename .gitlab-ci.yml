@@ -21,7 +21,6 @@ job1:
   - npm config ls -l
   - npm install --timing
   script:
-    - pwd
     - npm run build
   only:
     - master
@@ -31,13 +30,16 @@ job1:
 job2:
   stage: deploy
   before_script: 
-    - ssh-keyscan 167.179.96.11 >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-  script:
+    # - echo "${SSH_PRIVATE_KEY}" > id_rsa
+    - cd /
+    - pwd
     - ls
-    - echo 123 >> 1.txt
-    # - rsync -avr -e "ssh -i ~/rsync_id.pub" ./dist/* root@167.179.96.11:/home/www/sulpures.com
-    - rsync -avr -e "ssh -i ~/rsync_id.pub" ./1.txt root@167.179.96.11:/home/www/sulpures.com
+    # - chmod +700 id_rsa
+    # - mkdir "${HOME}/.ssh"
+    # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
+    # - echo 123 >> 1.txt
+  script:
+    # - rsync -ahrvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
   tags:
