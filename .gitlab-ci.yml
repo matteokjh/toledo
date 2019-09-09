@@ -29,7 +29,7 @@ job1:
     # - echo "${SSH_PRIVATE_KEY}" > id_rsa
     # - chmod 700 id_rsa
     # - ls
-    - mkdir "${HOME}/.ssh"
+    # - mkdir "${HOME}/.ssh"
     - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
     - rsync -arvz ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
