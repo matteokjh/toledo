@@ -26,12 +26,13 @@ job1:
   script:
     # - npm run build
     # - pwd
-    # - echo "${SSH_PRIVATE_KEY}" > id_rsa
-    # - chmod 700 id_rsa
+    - echo "${SSH_PRIVATE_KEY}" > id_rsa
+    - chmod 700 id_rsa
     # - ls
     # - mkdir "${HOME}/.ssh"
-    - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
-    - rsync -arvz ./1.txt root@167.179.96.11:/home/www/sulpures.com
+    # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
+    # - rsync -arvz ./1.txt root@167.179.96.11:/home/www/sulpures.com
+    - rsync -arvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
   tags:
