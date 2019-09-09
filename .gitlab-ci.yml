@@ -23,14 +23,13 @@ job1:
   # - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-    - cat ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   script:
     # - npm run build
     # - pwd
     # - ls
-    - rsync -arvz ./1.txt root@167.179.96.11:/home/www/sulpures.com
+    - rsync -arvz ./1.txt "${SERVER_HOST}":"${SERVER_PATH}"
     # - mkdir "${HOME}/.ssh"
     # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
     # - sudo rsync -arvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
