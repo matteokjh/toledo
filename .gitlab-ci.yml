@@ -36,8 +36,8 @@ job2:
     # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
     # - echo 123 >> 1.txt
   script:
-    # - ls
-    - rsync -ahrvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
+    - ls
+    - rsync -ahrvz -e 'ssh -i ./id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
   only:
     - master
   tags:
