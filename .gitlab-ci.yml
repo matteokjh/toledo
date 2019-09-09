@@ -23,6 +23,7 @@ job1:
   # - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+    - cat ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   script:
