@@ -32,9 +32,9 @@ job1:
     # - mkdir "${HOME}/.ssh"
     # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
     # - sudo rsync -arvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
-    - echo 123 >> 1.txt
+    - echo 123 >> /kjh/1.txt
     - ls
-    - cd /
+    - cd /kjh
     - ls -a
 
   only:
