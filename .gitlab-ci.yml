@@ -31,7 +31,7 @@ job2:
   stage: deploy
   before_script: 
     - echo "${SSH_PRIVATE_KEY}" > id_rsa
-    - chmod +700 id_rsa
+    - chmod 700 id_rsa
     # - mkdir "${HOME}/.ssh"
     # - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
     # - echo 123 >> 1.txt
