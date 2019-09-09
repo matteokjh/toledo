@@ -34,7 +34,7 @@ job1:
     # - sudo rsync -arvz -e 'ssh -i id_rsa' ./1.txt root@167.179.96.11:/home/www/sulpures.com
     - echo 123 >> 1.txt
     - ls
-    - cd ~
+    - cd /
     - ls -a
 
   only:
