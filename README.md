@@ -1,4 +1,4 @@
-# toledo(暂时停更)
+# toledo
 
 > my new Blog based on Vue.js
 
