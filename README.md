@@ -1,6 +1,6 @@
 # toledo
 
-> my new Blog based on Vue.js
+> my new Blog based on Vue + Express
 
 ## Build Setup
 
