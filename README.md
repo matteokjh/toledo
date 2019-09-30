@@ -2,6 +2,8 @@
 
 > my new Blog based on Vue + Express
 
+maybe december...
+
 ## Build Setup
 
 ``` bash
