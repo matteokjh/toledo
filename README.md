@@ -2,4 +2,4 @@
 
 > my new Blog based on Vue + Express
 
-next piece maybe december...
+next piece maybe december..
