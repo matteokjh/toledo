@@ -11,7 +11,7 @@
     "routeadd": "node ./node_modules/routeadd/routeAdd.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "gitment": "0.0.3",
     "prerender-spa-plugin": "^3.4.0",
     "routeadd": "^1.0.3",
